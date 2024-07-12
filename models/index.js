@@ -9,7 +9,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL);
 // Test the connection
 try {
   sequelize.authenticate();
-  console.log(`Connection has been established successfully.`);
+  console.log(`DATABASE CONNECTED SUCCESFULY`);
 } catch (error) {
   console.log(`Unable to connect to the database:`, error);
 }
