@@ -12,4 +12,11 @@ app.use(express.json());
 app.use(`/api/v1/books`, bookRouter);
 // app.use(`/api/v1/users`, userRouter);
 
+app.use("*", (req, res, next) => {
+  res.status(200).json({
+    status: `fail`,
+    message: `Can't find this route`,
+  });
+});
+
 module.exports = app;
