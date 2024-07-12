@@ -2,14 +2,11 @@ const Book = require("../models/bookModel");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const hello = {
-      name: `Onat`,
-      surname: `Arslan`,
-    };
+    const books = await Book.findAll();
     res.status(200).json({
       status: `success`,
       data: {
-        hello: hello,
+        books: books,
       },
     });
   } catch (err) {

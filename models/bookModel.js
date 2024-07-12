@@ -24,6 +24,6 @@ Book.init(
   }
 );
 
-Book.sync({ force: true });
+Book.sync({ alter: true });
 
 module.exports = Book;
