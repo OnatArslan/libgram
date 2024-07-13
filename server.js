@@ -2,8 +2,6 @@
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config.env" });
 
-const User = require(`./models/userModel`);
-
 // require sequelize object which i declere in database.js
 const sequelize = require(`./models/database`);
 // require app from app.js file

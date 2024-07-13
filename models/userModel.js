@@ -1,10 +1,11 @@
-const { Sequelize, DataTypes } = require(`sequelize`);
+const { Sequelize, DataTypes, Model } = require(`sequelize`);
 const sequelize = require("./database");
-const validator = require(`validator`);
+
 const bcrypt = require("bcrypt");
 
-const User = sequelize.define(
-  `User`,
+class User extends Model {}
+
+User.init(
   {
     // Fields goes here
     id: {
@@ -56,6 +57,8 @@ const User = sequelize.define(
   {
     // Options goes here
     tableName: `users`,
+    modelName: `User`,
+    sequelize,
   }
 );
 

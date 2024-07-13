@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes, Model } = require(`sequelize`);
 const sequelize = require(`./database`);
-const validator = require("validator");
 
-const Book = sequelize.define(
-  `Book`,
+class Book extends Model {}
+
+Book.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -32,9 +32,9 @@ const Book = sequelize.define(
   {
     // Options goes here
     tableName: `books`,
+    modelName: `Book`,
+    sequelize,
   }
 );
-
-// Book.sync({ alter: true });
 
 module.exports = Book;

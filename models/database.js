@@ -16,3 +16,9 @@ try {
 
 // Export the sequelize object
 module.exports = sequelize;
+
+const User = require(`./userModel`);
+const Book = require(`./bookModel`);
+
+User.belongsToMany(Book, { through: `userBook`, as: `books` });
+Book.belongsToMany(User, { through: `userBook`, as: `owners` });
