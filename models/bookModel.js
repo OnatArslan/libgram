@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require(`sequelize`);
 const sequelize = require(`./database`);
+const validatorjs = require("validatorjs");
 
 const Book = sequelize.define(
   `Book`,
@@ -18,7 +19,6 @@ const Book = sequelize.define(
     isbn: {
       type: DataTypes.INTEGER,
       unique: true,
-      allowNull: false,
     },
   },
   {
