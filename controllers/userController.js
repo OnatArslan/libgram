@@ -32,7 +32,7 @@ exports.createUser = async (req, res, next) => {
     };
     const newUser = await User.create(userData);
 
-    res.status(201).json({
+    res.status(200).json({
       status: "success",
       data: {
         user: newUser,
