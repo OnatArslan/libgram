@@ -42,14 +42,11 @@ function errorHandler(err, req, res, next) {
   const isKnownError = err.isOperational;
 
   if (isKnownError) {
-    // If the error is known and operational, respond with its message and a suitable status code
     res.status(err.statusCode).json({
       status: "error",
       message: err.message,
     });
   } else {
-    // If the error is unknown/unexpected, respond with a generic message to avoid leaking potentially sensitive information
-    // Optionally, you could send these errors to an external service for alerting/monitoring
     res.status(500).json({
       status: "error",
       message: "Something went wrong",
