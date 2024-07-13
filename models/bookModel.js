@@ -4,6 +4,12 @@ const sequelize = require(`./database`);
 const Book = sequelize.define(
   `Book`,
   {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING(100),
       unique: true,
