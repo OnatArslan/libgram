@@ -48,11 +48,11 @@ exports.createUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     if (req.body.password || req.body.passwordConfirmation) {
-      return next(
-        new Error(
-          `You can not reset your password on this route please try /reset-password`
-        )
-      );
+      return res.status(404).json({
+        // This must return because set headers error
+        status: `fail`,
+        message: `You can not use this route for resetting password, try /reset-password instead`,
+      });
     }
     const user = await User.findByPk(req.params.id);
 
@@ -67,7 +67,7 @@ exports.updateUser = async (req, res, next) => {
   } catch (err) {
     res.status(500).json({
       status: "fail",
-      message: err,
+      message: err.message,
     });
   }
 };

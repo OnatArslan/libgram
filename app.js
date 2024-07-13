@@ -33,4 +33,31 @@ app.use("*", (req, res, next) => {
   });
 });
 
+// Error handling middleware
+function errorHandler(err, req, res, next) {
+  // Log the error for debugging purposes
+  console.error(err.stack);
+
+  // Determine if the error is a known error (you could use a custom error class or check error properties)
+  const isKnownError = err.isOperational;
+
+  if (isKnownError) {
+    // If the error is known and operational, respond with its message and a suitable status code
+    res.status(err.statusCode).json({
+      status: "error",
+      message: err.message,
+    });
+  } else {
+    // If the error is unknown/unexpected, respond with a generic message to avoid leaking potentially sensitive information
+    // Optionally, you could send these errors to an external service for alerting/monitoring
+    res.status(500).json({
+      status: "error",
+      message: "Something went wrong",
+    });
+  }
+
+  // Pass the error to the next middleware, if needed
+  next(err);
+}
+
 module.exports = app;
