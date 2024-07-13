@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 // IMPORT ROUTES
 const bookRouter = require("./routers/bookRouter");
+const userRouter = require("./routers/userRouter");
 // DEFINE APP
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(helmet()); // Helmet helps secure your Express apps by setting various H
 
 // ROUTINGS
 app.use(`/api/v1/books`, bookRouter);
-// app.use(`/api/v1/users`, userRouter);
+app.use(`/api/v1/users`, userRouter);
 
 app.use("*", (req, res, next) => {
   res.status(200).json({
