@@ -1,11 +1,9 @@
 const { Sequelize, DataTypes, Model } = require(`sequelize`);
-const sequelize = require(`./index`);
+const sequelize = require(`./database`);
 
-class Book extends Model {}
-
-Book.init(
+const Book = sequelize.define(
+  `User`,
   {
-    // Attiributes goes here
     name: {
       type: DataTypes.STRING(100),
       unique: true,
@@ -19,8 +17,7 @@ Book.init(
   },
   {
     // Options goes here
-    sequelize, // Need add sequelize here
-    modelName: `books`, // books is plural model name
+    tableName: `books`,
   }
 );
 
