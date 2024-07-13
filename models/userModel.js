@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require(`sequelize`);
 const sequelize = require("./database");
 const validator = require(`validator`);
+const bcrypt = require("bcrypt");
 
 const User = sequelize.define(
   `User`,
@@ -57,5 +58,20 @@ const User = sequelize.define(
     tableName: `users`,
   }
 );
+
+// HERE I DECLARE HOOKS FOR USER MODEL
+User.beforeCreate(async (user) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+  user.password = hashedPassword;
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.changed(`password`)) {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+    user.password = hashedPassword;
+  }
+});
 
 module.exports = User;

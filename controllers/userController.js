@@ -44,3 +44,30 @@ exports.createUser = async (req, res, next) => {
     });
   }
 };
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    if (req.body.password || req.body.passwordConfirmation) {
+      return next(
+        new Error(
+          `You can not reset your password on this route please try /reset-password`
+        )
+      );
+    }
+    const user = await User.findByPk(req.params.id);
+
+    const updatedUser = await user.update(req.body, {});
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        user: updatedUser,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
