@@ -37,4 +37,4 @@ Book.belongsToMany(User, {
   otherKey: "userId",
 });
 
-syncDatabase();
+syncDatabase(); // This must be here end of the file because it checks all releationships and database configs
