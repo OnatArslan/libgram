@@ -21,20 +21,22 @@ async function syncDatabase() {
 
 // RELEATIONSHIPS DEFINED HERE
 const User = require("./userModel");
+const userFollower = require(`./userFollowerModel`);
 const Book = require("./bookModel");
 const userBook = require("./userBookModel");
 
 // PLACE MODEL RELEATIONSHIPS HERE
+// Releationship between User and Book model to 47
 User.belongsToMany(Book, {
   through: userBook,
-  as: "books",
+  as: "book",
   foreignKey: `userId`,
   otherKey: `bookId`,
 });
 
 Book.belongsToMany(User, {
   through: userBook,
-  as: "owners",
+  as: "owner",
   foreignKey: `bookId`,
   otherKey: `userId`,
 });
@@ -44,5 +46,28 @@ Book.hasMany(userBook, { foreignKey: `bookId` });
 
 userBook.belongsTo(User, { foreignKey: `userId` });
 userBook.belongsTo(Book, { foreignKey: `bookId` });
+// --------------------------------------------------------------------------------
+
+// Relationship between User and User as friends
+// Followers
+User.belongsToMany(User, {
+  through: userFollower,
+  as: `follower`,
+  foreignKey: `followingId`,
+  otherKey: `followerId`,
+});
+// Followings
+User.belongsToMany(User, {
+  through: userFollower,
+  as: `following`,
+  foreignKey: `followerId`,
+  otherKey: `followingId`,
+});
+
+User.hasMany(userFollower, { foreignKey: `followingId` });
+User.hasMany(userFollower, { foreignKey: `followerId` });
+
+userFollower.belongsTo(User, { foreignKey: `followingId` });
+userFollower.belongsTo(User, { foreignKey: `followerId` });
 
 syncDatabase(); // This must be here end of the file because it checks all releationships and database configs
