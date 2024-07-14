@@ -36,13 +36,7 @@ exports.getBook = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const owner = await User.findByPk("9da74e11-ee63-433c-b628-ce7bb1f35170");
-
-    const newBook = await Book.create({
-      name: req.body.name,
-      isbn: req.body.isbn,
-    });
-    await newBook.addOwner(owner);
+    const newBook = await Book.create(req.body);
 
     res.status(200).json({
       status: `success`,
