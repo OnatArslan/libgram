@@ -3,11 +3,11 @@ const User = require("../models/userModel");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = await Book.findAll({ include: `owners` });
+    const { count, rows } = await Book.findAndCountAll({ include: `owner` });
     res.status(200).json({
       status: `success`,
       data: {
-        books: books,
+        books: rows,
       },
     });
   } catch (err) {
