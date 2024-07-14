@@ -17,9 +17,11 @@ try {
 // Export the sequelize object
 module.exports = sequelize;
 
+// Import models for connections like (mTm mTo)
 const User = require(`./userModel`);
 const Book = require(`./bookModel`);
 
+// User and Book model connected via MANY TO MANY REL
 User.belongsToMany(Book, {
   through: { model: "userbook", unique: false },
   as: "books",
