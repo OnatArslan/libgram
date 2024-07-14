@@ -55,6 +55,7 @@ User.init(
     },
     role: {
       type: DataTypes.ENUM([`user`, `admin`]),
+      defaultValue: `user`,
     },
   },
   {
