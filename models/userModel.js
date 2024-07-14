@@ -53,6 +53,9 @@ User.init(
         notEmpty: true,
       },
     },
+    role: {
+      type: DataTypes.ENUM([`user`, `admin`]),
+    },
   },
   {
     // Options goes here
