@@ -22,19 +22,27 @@ async function syncDatabase() {
 // RELEATIONSHIPS DEFINED HERE
 const User = require("./userModel");
 const Book = require("./bookModel");
+const userBook = require("./userBookModel");
 
-// Place model associations here
+// PLACE MODEL RELEATIONSHIPS HERE
 User.belongsToMany(Book, {
-  through: "userbook",
+  through: userBook,
   as: "books",
-  foreignKey: "userId",
-  otherKey: "bookId",
+  foreignKey: `userId`,
+  otherKey: `bookId`,
 });
+
 Book.belongsToMany(User, {
-  through: "userbook",
+  through: userBook,
   as: "owners",
-  foreignKey: "bookId",
-  otherKey: "userId",
+  foreignKey: `bookId`,
+  otherKey: `userId`,
 });
+
+User.hasMany(userBook, { foreignKey: `userId` });
+Book.hasMany(userBook, { foreignKey: `bookId` });
+
+userBook.belongsTo(User, { foreignKey: `userId` });
+userBook.belongsTo(Book, { foreignKey: `bookId` });
 
 syncDatabase(); // This must be here end of the file because it checks all releationships and database configs

@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = await Book.findAll();
+    const books = await Book.findAll({ include: `owners` });
     res.status(200).json({
       status: `success`,
       data: {
@@ -36,7 +36,7 @@ exports.getBook = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const owner = await User.findByPk("2fabaf6b-d58f-46c4-a9a9-00555da533c2");
+    const owner = await User.findByPk("665b4d05-ed03-4858-b921-f4a665b0bb24");
 
     const newBook = await Book.create({
       name: req.body.name,
