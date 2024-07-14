@@ -1,46 +1,39 @@
 const dotenv = require("dotenv");
-
 dotenv.config({ path: "../config.env" });
 const { Sequelize } = require(`sequelize`);
 
-// DATABASE CONFIG
+// DATABASE CONNECTION
 const sequelize = new Sequelize(process.env.DATABASE_URL);
-
-// Test the connection
-try {
-  sequelize.authenticate();
-  console.log(`DATABASE CONNECTED SUCCESFULY`);
-} catch (error) {
-  console.log(`Unable to connect to the database:`, error);
-}
-
-// Create tables
-sequelize
-  .sync({ alter: true, logging: false })
-  .then(() => {
-    console.log(`Database synchronization succesfuly done`);
-  })
-  .catch((error) => {
-    console.log(`Failed to synchronization database models:`, error);
-  });
-
 // Export the sequelize object
 module.exports = sequelize;
 
-// Import models for connections like (mTm mTo)
-const User = require(`./userModel`);
-const Book = require(`./bookModel`);
+// Test connection and sync models
+async function syncDatabase() {
+  try {
+    await sequelize.authenticate();
+    console.log("DATABASE CONNECTED SUCCESSFULLY");
+    await sequelize.sync({ alter: true, logging: false });
+    console.log("Database synchronization successful");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+}
 
-// User and Book model connected via MANY TO MANY RELATIONSSHIP
+const User = require("./userModel");
+const Book = require("./bookModel");
+
+// Place model associations here
 User.belongsToMany(Book, {
-  through: { model: "userbook", unique: false },
+  through: "userbook",
   as: "books",
   foreignKey: "userId",
   otherKey: "bookId",
 });
 Book.belongsToMany(User, {
-  through: { model: "userbook", unique: false },
+  through: "userbook",
   as: "owners",
   foreignKey: "bookId",
   otherKey: "userId",
 });
+
+syncDatabase();
