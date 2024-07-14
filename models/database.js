@@ -21,7 +21,7 @@ module.exports = sequelize;
 const User = require(`./userModel`);
 const Book = require(`./bookModel`);
 
-// User and Book model connected via MANY TO MANY REL
+// User and Book model connected via MANY TO MANY RELATIONSSHIP
 User.belongsToMany(Book, {
   through: { model: "userbook", unique: false },
   as: "books",
