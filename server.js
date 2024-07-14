@@ -12,14 +12,6 @@ const app = require("./app");
 // RUN SERVER IF DATABASE CONNECTED ---------------------------
 const port = process.env.PORT || 5000;
 
-sequelize
-  .sync({ alter: true, logging: false })
-  .then(() => {
-    console.log(`Database synchronization succesfuly done`);
-    app.listen(port, () => {
-      console.log(`App listening at http://localhost:${port}`);
-    });
-  })
-  .catch((error) => {
-    console.log(`Failed to synchronization database models:`, error);
-  });
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`);
+});

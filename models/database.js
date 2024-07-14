@@ -14,6 +14,16 @@ try {
   console.log(`Unable to connect to the database:`, error);
 }
 
+// Create tables
+sequelize
+  .sync({ alter: true, logging: false })
+  .then(() => {
+    console.log(`Database synchronization succesfuly done`);
+  })
+  .catch((error) => {
+    console.log(`Failed to synchronization database models:`, error);
+  });
+
 // Export the sequelize object
 module.exports = sequelize;
 
