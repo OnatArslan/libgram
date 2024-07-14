@@ -19,13 +19,15 @@ async function syncDatabase() {
   }
 }
 
-// RELEATIONSHIPS DEFINED HERE
+// IMPORT MODELS FOR REL
 const User = require("./userModel");
 const userFollower = require(`./userFollowerModel`);
 const Book = require("./bookModel");
 const userBook = require("./userBookModel");
+const Review = require(`./reviewModel`);
 
 // PLACE MODEL RELEATIONSHIPS HERE
+
 // Releationship between User and Book model to 47
 User.belongsToMany(Book, {
   through: userBook,
@@ -70,4 +72,24 @@ User.hasMany(userFollower, { foreignKey: `followerId` });
 userFollower.belongsTo(User, { foreignKey: `followingId` });
 userFollower.belongsTo(User, { foreignKey: `followerId` });
 
+// --------------------------------------------------------------------------------------------------------
+// Relationship between User and Review models
+User.hasMany(Review, {
+  foreignKey: `userId`,
+  onDelete: `CASCADE`,
+  onUpdate: `RESTRICT`,
+  as: `reviews`,
+});
+
+Review.belongsTo(User, { foreignKey: `userId`, as: `owner` });
+
+// Relationship between Book and Review Model
+Book.hasMany(Review, {
+  foreignKey: `bookId`,
+  onDelete: `CASCADE`,
+  onUpdate: `RESTRICT`,
+  as: `reviews`,
+});
+
+Review.belongsTo(Book, { foreignKey: `bookId`, as: `relatedBook` });
 syncDatabase(); // This must be here end of the file because it checks all releationships and database configs
