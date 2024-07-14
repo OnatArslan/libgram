@@ -19,6 +19,7 @@ async function syncDatabase() {
   }
 }
 
+// RELEATIONSHIPS DEFINED HERE
 const User = require("./userModel");
 const Book = require("./bookModel");
 
