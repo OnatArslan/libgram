@@ -1,5 +1,6 @@
 const Book = require("../models/bookModel");
 const User = require("../models/userModel");
+const Review = require(`../models/reviewModel`);
 
 exports.getAllBooks = async (req, res, next) => {
   try {
