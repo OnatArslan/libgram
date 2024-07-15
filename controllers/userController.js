@@ -7,6 +7,8 @@ exports.getAllUsers = async (req, res, next) => {
       attributes: { exclude: [`password`] },
       include: [`book`, `follower`],
     });
+    const currentUser = req.user;
+    console.log(currentUser);
     res.status(200).json({
       status: `success`,
       message: `Showing : ${count} objects in this page`,
