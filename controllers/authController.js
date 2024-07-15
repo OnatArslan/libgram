@@ -40,3 +40,5 @@ exports.signIn = async (req, res, next) => {
     });
   }
 };
+
+exports.logIn = async (req, res, next) => {};
