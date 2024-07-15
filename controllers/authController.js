@@ -1,3 +1,4 @@
+const jwt = require(`jsonwebtoken`);
 const userModel = require(`../models/userModel`);
 
 // Controller for register
@@ -17,6 +18,10 @@ exports.signIn = async (req, res, next) => {
       password: password,
       passwordConfirmation: passwordConfirmation,
     });
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: `2 days`,
+    });
+    console.log(token);
 
     res.status(200).json({
       status: `success`,
