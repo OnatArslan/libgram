@@ -5,6 +5,7 @@ const Book = require("../models/bookModel");
 exports.getAllReviews = async (req, res, next) => {
   try {
     const { count, rows } = await Review.findAndCountAll();
+    console.log(req.body.bookId);
     res.status(200).json({
       status: `success`,
       data: {
@@ -35,7 +36,6 @@ exports.getReview = async (req, res, next) => {
 
 exports.createReview = async (req, res, next) => {
   try {
-    const user = await User.findByPk(`19c43472-b851-4e68-aeca-139de315674a`);
     const newReview = await Review.create({
       title: req.body.title,
       body: req.body.body,
