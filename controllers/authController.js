@@ -131,7 +131,7 @@ exports.getProfile = async (req, res, next) => {
   try {
     const user = await userModel.findByPk(req.user.id, {
       fields: [`username`, `email`, `role`],
-      include: `book`,
+      include: [`book`, `follower`, `following`],
     });
 
     res.status(200).json({
@@ -151,12 +151,46 @@ exports.getProfile = async (req, res, next) => {
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
-    const book = await bookModel.findByPk(bookId, { fields: [`name`, `isbn`] });
+    const book = await bookModel.findByPk(bookId);
     req.user.addBook(book);
     res.status(200).json({
       status: `success`,
       data: {
         book: book,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.addFriend = async (req, res, next) => {
+  try {
+    const followingId = req.params.followingId;
+    const following = await userModel.findByPk(followingId);
+
+    const curUser = await userModel.findByPk(req.user.id, {
+      include: [`following`],
+    });
+
+    const isFriendsAlready = curUser.following.some(
+      (el) => el.username === following.username
+    );
+    if (isFriendsAlready) {
+      return next(
+        new Error(
+          `You can not add ${following.username} because you are already friends`
+        )
+      );
+    }
+    req.user.addFollowing(following);
+    res.status(200).json({
+      status: `success`,
+      data: {
+        following: following,
       },
     });
   } catch (err) {

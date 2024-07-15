@@ -14,6 +14,10 @@ router
   .get(authController.isAuthenticated, authController.getProfile);
 
 router
+  .route(`/addFriend/:followingId`)
+  .get(authController.isAuthenticated, authController.addFriend);
+
+router
   .route(`/addBook/:bookId`)
   .post(authController.isAuthenticated, authController.addBookToLibrary);
 
