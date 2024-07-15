@@ -1,6 +1,7 @@
 const jwt = require(`jsonwebtoken`);
-const userModel = require(`../models/userModel`);
 const bcrypt = require(`bcrypt`);
+const userModel = require(`../models/userModel`);
+const bookModel = require(`../models/bookModel`);
 
 // Controller for register
 exports.signUp = async (req, res, next) => {
@@ -122,6 +123,46 @@ exports.isAuthenticated = async (req, res, next) => {
       status: "fail",
       message: "Unauthorized! Invalid token.",
       errmessage: err.message,
+    });
+  }
+};
+
+exports.getProfile = async (req, res, next) => {
+  try {
+    const user = await userModel.findByPk(req.user.id, {
+      fields: [`username`, `email`, `role`],
+      include: `book`,
+    });
+
+    res.status(200).json({
+      status: `success`,
+      data: {
+        user: user,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.addBookToLibrary = async (req, res, next) => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await bookModel.findByPk(bookId, { fields: [`name`, `isbn`] });
+    req.user.addBook(book);
+    res.status(200).json({
+      status: `success`,
+      data: {
+        book: book,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
     });
   }
 };

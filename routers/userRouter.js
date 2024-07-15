@@ -9,6 +9,14 @@ router.route(`/signUp`).post(authController.signUp);
 
 router.route(`/signIn`).post(authController.signIn);
 
+router
+  .route(`/getMe`)
+  .get(authController.isAuthenticated, authController.getProfile);
+
+router
+  .route(`/addBook/:bookId`)
+  .post(authController.isAuthenticated, authController.addBookToLibrary);
+
 // Admin routes
 router
   .route(`/`)
