@@ -182,7 +182,7 @@ exports.addFriend = async (req, res, next) => {
     if (isFriendsAlready) {
       return next(
         new Error(
-          `You can not add ${following.username} because you are already friends`
+          `You can not add ${following.username} because you are already friendss`
         )
       );
     }
