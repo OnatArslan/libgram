@@ -4,7 +4,7 @@ const Book = require("../models/bookModel");
 
 exports.getAllReviews = async (req, res, next) => {
   try {
-    const { count, rows } = await Review.findAndCountAll({ include: `owner` });
+    const { count, rows } = await Review.findAndCountAll();
     res.status(200).json({
       status: `success`,
       data: {
