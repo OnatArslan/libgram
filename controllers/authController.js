@@ -3,7 +3,7 @@ const userModel = require(`../models/userModel`);
 const bcrypt = require(`bcrypt`);
 
 // Controller for register
-exports.signIn = async (req, res, next) => {
+exports.signUp = async (req, res, next) => {
   try {
     // Get credentials and check if there
     const email = req.body.email.toString();

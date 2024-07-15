@@ -5,7 +5,9 @@ const authController = require(`../controllers/authController`);
 const router = express.Router();
 
 // User routes
-router.route(`/signIn`).post(authController.signIn);
+router.route(`/signUp`).post(authController.signUp);
+
+router.route(`/signIn`);
 
 // Admin routes
 router
