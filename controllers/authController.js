@@ -76,3 +76,52 @@ exports.signIn = async (req, res, next) => {
     });
   }
 };
+
+exports.isAuthenticated = async (req, res, next) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
+        status: "fail",
+        message: "You are not logged in! Please log in to get access.",
+      });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check if user still exists
+    const currentUser = await userModel.findByPk(decoded.id);
+    if (!currentUser) {
+      return res.status(401).json({
+        status: "fail",
+        message: "The user belonging to this token does no longer exist.",
+      });
+    }
+
+    // Check if user changed password after the token was issued
+    if (currentUser.checkPasswordChangedAfterToken(decoded.iat)) {
+      return res.status(401).json({
+        status: "fail",
+        message: "User recently changed password! Please log in again.",
+      });
+    }
+
+    // Grant access to protected route
+    req.user = currentUser;
+    next();
+  } catch (err) {
+    res.status(401).json({
+      status: "fail",
+      message: "Unauthorized! Invalid token.",
+      errmessage: err.message,
+    });
+  }
+};

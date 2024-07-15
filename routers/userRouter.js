@@ -13,7 +13,7 @@ router.route(`/signIn`).post(authController.signIn);
 router
   .route(`/`)
   .post(userController.createUser)
-  .get(userController.getAllUsers);
+  .get(authController.isAuthenticated, userController.getAllUsers);
 
 router.route(`/:id`).patch(userController.updateUser);
 
