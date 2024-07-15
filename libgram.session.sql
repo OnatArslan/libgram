@@ -1,1 +1,1 @@
-SELECT * from books
+SELECT * from reviews

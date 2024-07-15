@@ -36,10 +36,12 @@ exports.getReview = async (req, res, next) => {
 
 exports.createReview = async (req, res, next) => {
   try {
+    const book = await Book.findByPk(req.params.id);
     const newReview = await Review.create({
       title: req.body.title,
       body: req.body.body,
-      userId: user.id,
+      bookId: book.id,
+      userId: req.user.id,
     });
     res.status(200).json({
       status: `success`,
@@ -48,6 +50,7 @@ exports.createReview = async (req, res, next) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       status: `fail`,
       message: err.message,

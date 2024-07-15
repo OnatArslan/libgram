@@ -12,6 +12,8 @@ router
 
 // This is create a review based on a book
 // And gets user from auth middleware
-router.route(`/:id`).post(reviewController.createReview);
+router
+  .route(`/:id`)
+  .post(authController.isAuthenticated, reviewController.createReview);
 
 module.exports = router;
