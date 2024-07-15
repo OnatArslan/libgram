@@ -3,3 +3,6 @@ node_modules/
 
 # Ignore config.env file
 config.env
+
+# Ingore sql file
+libgram.session.sql
