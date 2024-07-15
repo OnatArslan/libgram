@@ -28,8 +28,8 @@ exports.signUp = async (req, res, next) => {
     );
     res.status(200).json({
       status: `success`,
+      token: token,
       data: {
-        token: token,
         newUser: newUser,
       },
     });
@@ -41,4 +41,18 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
-exports.logIn = async (req, res, next) => {};
+exports.signIn = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {
+        // token: token,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
