@@ -3,7 +3,7 @@ const bookController = require("../controllers/bookController");
 
 const reviewRouter = require(`./reviewRouter`);
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // These routes for regular CRUD routes not specific
 
@@ -18,7 +18,7 @@ router
 router
   .route(`/:id`)
   .get(bookController.getBook)
-  .patch(bookController.updateBook)
-  .delete(bookController.deleteBook);
+  .patch(bookController.updateBook) // Restrict Admin
+  .delete(bookController.deleteBook); // Restrict Admin
 
 module.exports = router;

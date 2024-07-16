@@ -2,7 +2,11 @@ const express = require(`express`);
 const userController = require(`../controllers/userController`);
 const authController = require(`../controllers/authController`);
 
-const router = express.Router();
+const bookRouter = require(`./bookRouter`);
+
+const router = express.Router({ mergeParams: true });
+
+router.use(`/:userId/books`, bookRouter);
 
 // User routes
 router.route(`/signUp`).post(authController.signUp);

@@ -4,7 +4,11 @@ const Review = require(`../models/reviewModel`);
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const { count, rows } = await Book.findAndCountAll({ include: `owner` });
+    let books;
+    let owner;
+    if (req.params.userId) {
+      owner = await User.findByPk(req.params.userId, { include: `book` });
+    }
     res.status(200).json({
       status: `success`,
       data: {
