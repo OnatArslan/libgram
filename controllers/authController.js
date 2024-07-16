@@ -127,11 +127,13 @@ exports.isAuthenticated = async (req, res, next) => {
   }
 };
 
+// These are daily stuff
+
 exports.getProfile = async (req, res, next) => {
   try {
     const user = await userModel.findByPk(req.user.id, {
       fields: [`username`, `email`, `role`],
-      include: [`book`, `follower`, `following`],
+      include: [`follower`, `following`],
     });
 
     res.status(200).json({
@@ -148,6 +150,7 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
+// These route for fetch api
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;

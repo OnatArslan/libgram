@@ -5,7 +5,6 @@ exports.getAllUsers = async (req, res, next) => {
   try {
     const { count, rows } = await User.findAndCountAll({
       attributes: { exclude: [`password`] },
-      include: [`book`, `follower`],
     });
     const currentUser = req.user;
     console.log(currentUser);
