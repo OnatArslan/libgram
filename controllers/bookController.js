@@ -2,19 +2,24 @@ const Book = require("../models/bookModel");
 const User = require("../models/userModel");
 const Review = require(`../models/reviewModel`);
 const userBook = require("../models/userBookModel");
+const { Json } = require("sequelize/lib/utils");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
     let books;
     let owner;
     if (req.params.userId) {
-      owner = await User.findByPk(req.params.userId, { include: `book` });
-      books = owner.getBook();
+      owner = await User.findByPk(req.params.userId, {
+        include: `book`,
+      });
+      books = await owner.getBook();
+    } else {
+      books = await Book.findAll({ include: [`reviews`] });
     }
     res.status(200).json({
       status: `success`,
       data: {
-        books: owner,
+        books: books,
       },
     });
   } catch (err) {
