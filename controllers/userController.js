@@ -1,4 +1,3 @@
-const attributes = require("validatorjs/src/attributes");
 const User = require("../models/userModel");
 
 exports.getAllUsers = async (req, res, next) => {
