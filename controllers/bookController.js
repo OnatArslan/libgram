@@ -1,6 +1,7 @@
 const Book = require("../models/bookModel");
 const User = require("../models/userModel");
 const Review = require(`../models/reviewModel`);
+const userBook = require("../models/userBookModel");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
@@ -8,11 +9,12 @@ exports.getAllBooks = async (req, res, next) => {
     let owner;
     if (req.params.userId) {
       owner = await User.findByPk(req.params.userId, { include: `book` });
+      books = owner.getBook();
     }
     res.status(200).json({
       status: `success`,
       data: {
-        books: rows,
+        books: owner,
       },
     });
   } catch (err) {
