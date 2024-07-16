@@ -80,9 +80,11 @@ exports.updateBook = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
+    const book = await Book.findByPk(req.params.id);
+    await book.destroy();
     res.status(200).json({
       status: `success`,
-      data: {},
+      message: `deleted succesfuly`,
     });
   } catch (err) {
     res.status(500).json({

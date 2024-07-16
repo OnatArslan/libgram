@@ -1,6 +1,8 @@
 const express = require("express");
 const bookController = require("../controllers/bookController");
 
+const authController = require(`../controllers/authController`);
+
 const reviewRouter = require(`./reviewRouter`);
 
 const router = express.Router({ mergeParams: true });
@@ -19,6 +21,10 @@ router
   .route(`/:id`)
   .get(bookController.getBook)
   .patch(bookController.updateBook) // Restrict Admin
-  .delete(bookController.deleteBook); // Restrict Admin
+  .delete(
+    authController.isAuthenticated,
+    authController.isAdmin,
+    bookController.deleteBook
+  ); // Restrict Admin
 
 module.exports = router;

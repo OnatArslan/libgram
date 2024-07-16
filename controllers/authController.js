@@ -127,6 +127,22 @@ exports.isAuthenticated = async (req, res, next) => {
   }
 };
 
+exports.isAdmin = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!(user.role === `admin`)) {
+      return next(new Error(`Only admins can access this route`));
+    } else {
+      next();
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
 // These are daily stuff
 
 exports.getProfile = async (req, res, next) => {
