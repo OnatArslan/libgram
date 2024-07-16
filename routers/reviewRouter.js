@@ -3,17 +3,12 @@ const reviewController = require(`../controllers/reviewController`);
 const authController = require(`../controllers/authController`);
 
 // This mergeParams:true because of
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // These routes are not
 router
   .route(`/`)
-  .get(authController.isAuthenticated, reviewController.getAllReviews);
-
-// This is create a review based on a book
-// And gets user from auth middleware
-router
-  .route(`/:id`)
+  .get(authController.isAuthenticated, reviewController.getAllReviews)
   .post(authController.isAuthenticated, reviewController.createReview);
 
 module.exports = router;
