@@ -9,6 +9,7 @@ const bookRouter = require("./routers/bookRouter");
 const authRouter = require("./routers/authRouter");
 const adminRouter = require(`./routers/adminRouter`);
 const reviewRouter = require(`./routers/reviewRouter`);
+const profileRouter = require(`./routers/profileRouter`);
 
 // DEFINE APP
 const app = express();
