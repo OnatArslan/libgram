@@ -10,6 +10,7 @@ exports.getAllBooks = async (req, res, next) => {
     let books;
     let owner;
     let ownerUsername;
+
     if (req.params.userId) {
       owner = await User.findByPk(req.params.userId, {
         include: `book`,
@@ -24,6 +25,7 @@ exports.getAllBooks = async (req, res, next) => {
     }
     res.status(200).json({
       status: `success`,
+
       data: {
         username: ownerUsername,
         books: books,
