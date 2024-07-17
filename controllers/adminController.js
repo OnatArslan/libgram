@@ -90,9 +90,9 @@ exports.createUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     res.status(201).json({
-      status: "success",
+      status: "Fail",
       data: {
-        user: updatedUser,
+        message: `This route is not working`,
       },
     });
   } catch (err) {
