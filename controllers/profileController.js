@@ -1,19 +1,19 @@
 const User = require(`../models/userModel`);
 const Book = require(`../models/bookModel`);
 const attributes = require("validatorjs/src/attributes");
+const sequelize = require("../models/database");
 
-// These are daily stuff
-// This getProfile controler must go to profileController and profileRoutes must be used for this kind of stuff
-// Update profile must be in profileController buy updatePassword must be in authController
-// Get Profile can get books followers and followings but we define seperate controllers for each of them
+// Get profile is not done you must recap tomorrow and add sample datas to server
 exports.getProfile = async (req, res, next) => {
   try {
     console.log(`-------------------------------------------------`);
     console.log(req.user.id);
+
     const user = await User.findByPk(req.user.id, {
       attributes: [`username`, `email`, `role`],
+      include: [`book`, `follower`, `following`],
     });
-    const countBook = await user.countBook();
+
     res.status(200).json({
       status: `success`,
       data: {
@@ -29,6 +29,7 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
+// Get followers not done
 exports.getFollowers = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
@@ -117,7 +118,7 @@ exports.unfollow = async (req, res, next) => {
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
-    const book = await bookModel.findByPk(bookId);
+    const book = await Book.findByPk(bookId);
     req.user.addBook(book);
     res.status(200).json({
       status: `success`,
