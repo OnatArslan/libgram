@@ -144,7 +144,8 @@ exports.isAdmin = async (req, res, next) => {
 };
 
 // These are daily stuff
-
+// This getProfile controler must go to profileController and profileRoutes must be used for this kind of stuff
+// Update profile must be in profileController buy updatePassword must be in authController
 exports.getProfile = async (req, res, next) => {
   try {
     const user = await userModel.findByPk(req.user.id, {
