@@ -9,7 +9,11 @@ router.use(authController.isAuthenticated, authController.isAdmin);
 router
   .route(`/`)
   .get(adminController.getAllUsers)
-  .post(adminController.createUser)
+  .post(adminController.createUser);
+
+router
+  .route(`/:userId`)
+  .get(adminController.getUser)
   .patch(adminController.updateUser)
   .delete(adminController.deleteUser);
 

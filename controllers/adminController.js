@@ -6,6 +6,10 @@ exports.getAllUsers = async (req, res, next) => {
   try {
     const { count, rows } = await User.findAndCountAll({
       attributes: { exclude: [`password`] },
+      order: [
+        [`role`, `DESC`],
+        [`username`, `ASC`],
+      ],
     });
     res.status(200).json({
       status: `success`,
@@ -17,6 +21,21 @@ exports.getAllUsers = async (req, res, next) => {
   } catch (err) {
     res.status(500).json({
       status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = User.findByPk();
+    res.status(201).json({
+      status: "success",
+      data: {},
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
       message: err.message,
     });
   }
