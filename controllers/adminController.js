@@ -87,23 +87,6 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-// For change user's role if neccessary
-exports.updateUser = async (req, res, next) => {
-  try {
-    res.status(201).json({
-      status: "success",
-      data: {
-        user: updatedUser,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
 exports.deleteUser = async (req, res, next) => {
   try {
     res.status(201).json({

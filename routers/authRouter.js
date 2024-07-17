@@ -28,11 +28,5 @@ router
 // router.route(`/removeBook/:bookId`).get(authController.isAuthenticated,);
 
 // Admin routes
-router
-  .route(`/`)
-  .post(userController.createUser)
-  .get(authController.isAuthenticated, userController.getAllUsers);
-
-router.route(`/:id`).patch(userController.updateUser);
 
 module.exports = router;
