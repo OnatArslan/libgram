@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 
+// All this routes for admin's regular user can not use this routes
+
 exports.getAllUsers = async (req, res, next) => {
   try {
     const { count, rows } = await User.findAndCountAll({
@@ -22,22 +24,21 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   try {
-    const friend = await User.findByPk(`19c43472-b851-4e68-aeca-139de315674a`);
-
     const userData = {
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
       passwordConfirmation: req.body.passwordConfirmation,
+      role: `admin`,
     };
-    const newUser = await User.create(userData);
 
-    await newUser.addFollower(friend);
+    const newUser = await User.create(userData);
 
     res.status(200).json({
       status: "success",
       data: {
         user: newUser,
+        message: `Admin succesfuly created`,
       },
     });
   } catch (err) {
