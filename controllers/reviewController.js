@@ -26,6 +26,7 @@ exports.getAllReviews = async (req, res, next) => {
 
 exports.getReview = async (req, res, next) => {
   try {
+    const reviewId = req.params.reviewId;
     const review = await Review.findByPk(req.params.reviewId);
     if (!review) {
       return next(new Error(`Can not find the review in database`));
