@@ -65,12 +65,17 @@ User.init(
       type: DataTypes.ENUM([`user`, `admin`]),
       defaultValue: `user`,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   },
   {
     // Options goes here
     tableName: `users`,
     modelName: `User`,
     sequelize,
+    paranoid: true,
   }
 );
 
