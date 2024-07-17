@@ -28,9 +28,21 @@ exports.getFollowers = async (req, res, next) => {
   try {
     res.status(200).json({
       status: `success`,
-      data: {
-        following: following,
-      },
+      data: {},
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.getFollowings = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {},
     });
   } catch (err) {
     res.status(500).json({
