@@ -16,7 +16,11 @@ router.use(`/:bookId/reviews`, reviewRouter);
 router
   .route(`/`)
   .get(bookController.getAllBooks)
-  .post(bookController.createBook);
+  .post(
+    authController.isAuthenticated,
+    authController.isAdmin,
+    bookController.createBook
+  );
 
 router
   .route(`/:id`)
