@@ -41,10 +41,12 @@ exports.getAllBooks = async (req, res, next) => {
 
 exports.getBook = async (req, res, next) => {
   try {
+    const bookId = req.params.bookId;
+    const book = await Book.findByPk(bookId, {});
     res.status(200).json({
       status: `success`,
       data: {
-        hello: hello,
+        book: book,
       },
     });
   } catch (err) {

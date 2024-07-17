@@ -23,7 +23,7 @@ router
   );
 
 router
-  .route(`/:id`)
+  .route(`/:bookId`)
   .get(bookController.getBook)
   .patch(bookController.updateBook) // Restrict Admin
   .delete(
