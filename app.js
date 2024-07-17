@@ -6,7 +6,7 @@ const helmet = require("helmet");
 
 // IMPORT ROUTES
 const bookRouter = require("./routers/bookRouter");
-const userRouter = require("./routers/userRouter");
+const authRouter = require("./routers/authRouter");
 const reviewRouter = require(`./routers/reviewRouter`);
 
 // DEFINE APP
@@ -27,7 +27,7 @@ app.use(helmet()); // Helmet helps secure your Express apps by setting various H
 
 // ROUTINGS
 app.use(`/api/v1/books`, bookRouter);
-app.use(`/api/v1/users`, userRouter);
+app.use(`/api/v1/users`, authRouter);
 app.use(`/api/v1/reviews`, reviewRouter);
 
 app.use("*", (req, res, next) => {
