@@ -58,6 +58,7 @@ User.belongsToMany(User, {
   foreignKey: `followingId`,
   otherKey: `followerId`,
 });
+
 // Followings
 User.belongsToMany(User, {
   through: userFollower,
@@ -77,7 +78,7 @@ userFollower.belongsTo(User, { foreignKey: `followerId` });
 User.hasMany(Review, {
   foreignKey: `userId`,
   onDelete: `CASCADE`,
-  onUpdate: `RESTRICT`,
+  onUpdate: `NO ACTION`,
   as: `reviews`,
 });
 
@@ -87,7 +88,7 @@ Review.belongsTo(User, { foreignKey: `userId`, as: `owner` });
 Book.hasMany(Review, {
   foreignKey: `bookId`,
   onDelete: `CASCADE`,
-  onUpdate: `RESTRICT`,
+  onUpdate: `NO ACTION`,
   as: `reviews`,
 });
 
