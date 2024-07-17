@@ -33,6 +33,7 @@ Book.init(
     tableName: `books`,
     modelName: `Book`,
     sequelize,
+    paranoid: true,
   }
 );
 
