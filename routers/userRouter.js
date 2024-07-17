@@ -13,6 +13,7 @@ router.route(`/signUp`).post(authController.signUp);
 
 router.route(`/signIn`).post(authController.signIn);
 
+// Friendship routes
 router
   .route(`/getMe`)
   .get(authController.isAuthenticated, authController.getProfile);
