@@ -52,39 +52,6 @@ exports.getFollowings = async (req, res, next) => {
   }
 };
 
-exports.addBookToLibrary = async (req, res, next) => {
-  try {
-    const bookId = req.params.bookId;
-    const book = await bookModel.findByPk(bookId);
-    req.user.addBook(book);
-    res.status(200).json({
-      status: `success`,
-      data: {
-        book: book,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: `fail`,
-      message: err.message,
-    });
-  }
-};
-
-exports.removeBookFromLibrary = async (req, res, next) => {
-  try {
-    res.status(200).json({
-      status: `success`,
-      data: {},
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: `fail`,
-      message: err.message,
-    });
-  }
-};
-
 exports.follow = async (req, res, next) => {
   try {
     const followingId = req.params.followingId;
@@ -126,6 +93,53 @@ exports.unfollow = async (req, res, next) => {
       data: {
         following: following,
       },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.addBookToLibrary = async (req, res, next) => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await bookModel.findByPk(bookId);
+    req.user.addBook(book);
+    res.status(200).json({
+      status: `success`,
+      data: {
+        book: book,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.removeBookFromLibrary = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {},
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.getBooks = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {},
     });
   } catch (err) {
     res.status(500).json({
