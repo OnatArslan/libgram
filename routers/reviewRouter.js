@@ -13,6 +13,7 @@ router
 
 router
   .route(`/:reviewId`)
+  .get(reviewController.getReview)
   .patch(authController.isAuthenticated, reviewController.updateReview)
   .delete(authController.isAuthenticated, reviewController.deleteReview);
 

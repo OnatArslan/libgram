@@ -24,6 +24,26 @@ exports.getAllReviews = async (req, res, next) => {
   }
 };
 
+exports.getReview = async (req, res, next) => {
+  try {
+    const review = await Review.findByPk(req.params.reviewId);
+    if (!review) {
+      return next(new Error(`Can not find the review in database`));
+    }
+    res.status(200).json({
+      status: `success`,
+      data: {
+        review: review,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
 exports.createReview = async (req, res, next) => {
   try {
     let newReview;
