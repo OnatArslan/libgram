@@ -5,6 +5,7 @@ const attributes = require("validatorjs/src/attributes");
 // These are daily stuff
 // This getProfile controler must go to profileController and profileRoutes must be used for this kind of stuff
 // Update profile must be in profileController buy updatePassword must be in authController
+// Get Profile can get books followers and followings but we define seperate controllers for each of them
 exports.getProfile = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id, {
@@ -53,9 +54,12 @@ exports.getProfile = async (req, res, next) => {
 
 exports.getFollowers = async (req, res, next) => {
   try {
+    const user = await User.findByPk(req.user.id);
+    const followers = await user.getFollower();
+
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: { followers },
     });
   } catch (err) {
     res.status(500).json({
