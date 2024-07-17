@@ -32,30 +32,30 @@ const Review = require(`./reviewModel`);
 User.belongsToMany(Book, {
   through: userBook,
   as: "book",
-  foreignKey: `userId`,
-  otherKey: `bookId`,
+  foreignKey: { name: `userId`, field: `user_id` },
+  otherKey: { name: `bookId`, field: `book_id` },
 });
 
 Book.belongsToMany(User, {
   through: userBook,
   as: "owner",
-  foreignKey: `bookId`,
-  otherKey: `userId`,
+  foreignKey: { name: `bookId`, field: `book_id` },
+  otherKey: { name: `userId`, field: `user_id` },
 });
 
 User.hasMany(userBook, {
-  foreignKey: `userId`,
+  foreignKey: { name: `userId`, field: `user_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
 });
 Book.hasMany(userBook, {
-  foreignKey: `bookId`,
+  foreignKey: { name: `bookId`, field: `book_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
 });
 
-userBook.belongsTo(User, { foreignKey: `userId` });
-userBook.belongsTo(Book, { foreignKey: `bookId` });
+userBook.belongsTo(User, { foreignKey: { name: `userId`, field: `user_id` } });
+userBook.belongsTo(Book, { foreignKey: { name: `bookId`, field: `book_id` } });
 // --------------------------------------------------------------------------------
 
 // Relationship between User and User as friends
@@ -63,50 +63,61 @@ userBook.belongsTo(Book, { foreignKey: `bookId` });
 User.belongsToMany(User, {
   through: userFollower,
   as: `follower`,
-  foreignKey: `followingId`,
-  otherKey: `followerId`,
+  foreignKey: { name: `followingId`, field: `following_id` },
+  otherKey: { name: `followerId`, field: `follower_id` },
 });
 
 // Followings
 User.belongsToMany(User, {
   through: userFollower,
   as: `following`,
-  foreignKey: `followerId`,
-  otherKey: `followingId`,
+  foreignKey: { name: `followerId`, field: `follower_id` },
+  otherKey: { name: `followingId`, field: `following_id` },
 });
 
 User.hasMany(userFollower, {
-  foreignKey: `followingId`,
+  foreignKey: { name: `followingId`, field: `following_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
 });
 User.hasMany(userFollower, {
-  foreignKey: `followerId`,
+  foreignKey: { name: `followerId`, field: `follower_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
 });
 
-userFollower.belongsTo(User, { foreignKey: `followingId` });
-userFollower.belongsTo(User, { foreignKey: `followerId` });
+userFollower.belongsTo(User, {
+  foreignKey: { name: `followingId`, field: `following_id` },
+});
+
+userFollower.belongsTo(User, {
+  foreignKey: { name: `followerId`, field: `follower_id` },
+});
 
 // --------------------------------------------------------------------------------------------------------
 // Relationship between User and Review models
 User.hasMany(Review, {
-  foreignKey: `userId`,
+  foreignKey: { name: `userId`, field: `user_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
   as: `reviews`,
 });
 
-Review.belongsTo(User, { foreignKey: `userId`, as: `owner` });
+Review.belongsTo(User, {
+  foreignKey: { name: `userId`, field: `user_id` },
+  as: `owner`,
+});
 
 // Relationship between Book and Review Model
 Book.hasMany(Review, {
-  foreignKey: `bookId`,
+  foreignKey: { name: `bookId`, field: `book_id` },
   onDelete: `CASCADE`,
   onUpdate: `CASCADE`,
   as: `reviews`,
 });
 
-Review.belongsTo(Book, { foreignKey: `bookId`, as: `relatedBook` });
+Review.belongsTo(Book, {
+  foreignKey: { name: `book_id`, field: `book_id` },
+  as: `relatedBook`,
+});
 syncDatabase(); // This must be here end of the file because it checks all releationships and database configs

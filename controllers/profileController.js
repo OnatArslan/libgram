@@ -8,36 +8,12 @@ const attributes = require("validatorjs/src/attributes");
 // Get Profile can get books followers and followings but we define seperate controllers for each of them
 exports.getProfile = async (req, res, next) => {
   try {
+    console.log(`-------------------------------------------------`);
+    console.log(req.user.id);
     const user = await User.findByPk(req.user.id, {
       attributes: [`username`, `email`, `role`],
-      include: [
-        {
-          as: `follower`,
-          model: User,
-          attributes: [`username`, `email`],
-          through: {
-            attributes: [],
-          },
-        },
-        {
-          as: `following`,
-          model: User,
-          attributes: [`username`, `email`],
-          through: {
-            attributes: [],
-          },
-        },
-        {
-          as: `book`,
-          model: Book,
-          attributes: [`name`, `isbn`],
-          through: {
-            attributes: [],
-          },
-        },
-      ],
     });
-
+    const countBook = await user.countBook();
     res.status(200).json({
       status: `success`,
       data: {
@@ -45,9 +21,10 @@ exports.getProfile = async (req, res, next) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       status: `fail`,
-      message: err.message,
+      message: err,
     });
   }
 };
@@ -55,7 +32,11 @@ exports.getProfile = async (req, res, next) => {
 exports.getFollowers = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
-    const followers = await user.getFollower();
+
+    const followers = await user.getFollower({
+      attributes: [`username`],
+      joinTableAttributes: [], // This is for
+    });
 
     res.status(200).json({
       status: `success`,
