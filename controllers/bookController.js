@@ -1,9 +1,6 @@
 const Book = require("../models/bookModel");
 const User = require("../models/userModel");
 const Review = require(`../models/reviewModel`);
-const userBook = require("../models/userBookModel");
-const { Json } = require("sequelize/lib/utils");
-const { messages } = require("validatorjs/src/lang");
 
 // This controller route /users/:userId/books and /books routes
 exports.getAllBooks = async (req, res, next) => {
