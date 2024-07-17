@@ -84,7 +84,7 @@ exports.createBook = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
-        newBook: newBook,
+        books: books,
       },
     });
   } catch (err) {
