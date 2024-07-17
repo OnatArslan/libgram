@@ -21,7 +21,7 @@ Book.init(
       },
     },
     isbn: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       unique: true,
       allowNull: true, // this must be false but for production best like this
       validate: {
