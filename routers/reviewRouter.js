@@ -8,7 +8,9 @@ const router = express.Router({ mergeParams: true });
 // These routes are not
 router
   .route(`/`)
-  .get(authController.isAuthenticated, reviewController.getAllReviews)
+  .get(reviewController.getAllReviews)
   .post(authController.isAuthenticated, reviewController.createReview);
+
+router.route(`/:reviewId`).get();
 
 module.exports = router;
