@@ -59,7 +59,9 @@ exports.getBook = async (req, res, next) => {
         },
       ],
     });
-
+    if (!book) {
+      return next(new Error(`Can not find book with this id`));
+    }
     const ownerCount = await book.countOwner();
 
     res.status(200).json({
