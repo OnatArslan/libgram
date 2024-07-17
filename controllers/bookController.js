@@ -79,7 +79,7 @@ exports.getBook = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const newBook = await Book.create(req.body);
+    const newBook = await Book.create();
 
     res.status(200).json({
       status: `success`,
