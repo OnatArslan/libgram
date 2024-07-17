@@ -4,6 +4,7 @@ const Review = require(`../models/reviewModel`);
 const userBook = require("../models/userBookModel");
 const { Json } = require("sequelize/lib/utils");
 
+// This controller route /users/:userId/books and /books routes
 exports.getAllBooks = async (req, res, next) => {
   try {
     let books;
@@ -12,6 +13,9 @@ exports.getAllBooks = async (req, res, next) => {
       owner = await User.findByPk(req.params.userId, {
         include: `book`,
       });
+      if (!owner) {
+        return next(new Error(`Can not find this user`));
+      }
       books = await owner.getBook();
     } else {
       books = await Book.findAll({ include: [`reviews`] });
@@ -19,6 +23,7 @@ exports.getAllBooks = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
+        owner: owner.username,
         books: books,
       },
     });
