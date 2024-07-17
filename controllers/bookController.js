@@ -86,7 +86,6 @@ exports.createBook = async (req, res, next) => {
       name: req.body.name,
       isbn: req.body.isbn,
     });
-
     res.status(200).json({
       status: `success`,
       data: {
@@ -105,9 +104,19 @@ exports.createBook = async (req, res, next) => {
 // Admin required
 exports.updateBook = async (req, res, next) => {
   try {
+    const bookId = req.params.bookId;
+    const book = await Book.findByPk(bookId);
+    if (!book) {
+      return next(new Error(`Can not find this book`));
+    }
+    await book.update({
+      name: req.body.name,
+      isbn: req.body.isbn,
+    });
+
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: { book: book },
     });
   } catch (err) {
     res.status(500).json({
