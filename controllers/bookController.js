@@ -79,14 +79,18 @@ exports.getBook = async (req, res, next) => {
   }
 };
 
+// Admin required
 exports.createBook = async (req, res, next) => {
   try {
-    const books = await Book.bulkCreate(req.body, { validate: true });
+    const book = await Book.create({
+      name: req.body.name,
+      isbn: req.body.isbn,
+    });
 
     res.status(200).json({
       status: `success`,
       data: {
-        books: books,
+        book: book,
       },
     });
   } catch (err) {
@@ -98,6 +102,7 @@ exports.createBook = async (req, res, next) => {
   }
 };
 
+// Admin required
 exports.updateBook = async (req, res, next) => {
   try {
     res.status(200).json({
@@ -112,6 +117,7 @@ exports.updateBook = async (req, res, next) => {
   }
 };
 
+// Admin required
 exports.deleteBook = async (req, res, next) => {
   try {
     const book = await Book.findByPk(req.params.id);
