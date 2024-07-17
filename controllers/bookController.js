@@ -79,7 +79,7 @@ exports.getBook = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const books = await Book.bulkCreate(req.body);
+    const books = await Book.bulkCreate(req.body, { validate: true });
 
     res.status(200).json({
       status: `success`,
@@ -88,9 +88,10 @@ exports.createBook = async (req, res, next) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       status: `fail`,
-      message: err.message,
+      message: err,
     });
   }
 };

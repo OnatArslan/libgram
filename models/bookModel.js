@@ -17,7 +17,6 @@ Book.init(
       allowNull: false,
       validate: {
         min: 3,
-        max: 50,
       },
     },
     isbn: {
