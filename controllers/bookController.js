@@ -79,7 +79,7 @@ exports.getBook = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const newBook = await Book.create();
+    const books = await Book.bulkCreate(req.body, { validate: true });
 
     res.status(200).json({
       status: `success`,
