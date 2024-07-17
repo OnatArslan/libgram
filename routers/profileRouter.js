@@ -14,6 +14,10 @@ router
   .route(`/follow/:followingId`)
   .get(authController.isAuthenticated, profileController.follow);
 
+router
+  .route(`/followers`)
+  .get(authController.isAuthenticated, profileController.getFollowers);
+
 // Book Routes
 router
   .route(`/addBook/:bookId`)
