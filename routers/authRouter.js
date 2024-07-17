@@ -1,5 +1,5 @@
 const express = require(`express`);
-const userController = require(`../controllers/userController`);
+const userController = require(`../controllers/adminController`);
 const authController = require(`../controllers/authController`);
 
 const bookRouter = require(`./bookRouter`);
