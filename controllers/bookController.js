@@ -47,13 +47,18 @@ exports.getBook = async (req, res, next) => {
         {
           model: Review,
           as: `reviews`,
-        },
-        {
-          model: User,
-          as: `owner`,
+          attributes: [`title`, `body`, `createdAt`],
+          include: [
+            {
+              model: User,
+              as: `owner`,
+              attributes: [`username`, `email`],
+            },
+          ],
         },
       ],
     });
+
     res.status(200).json({
       status: `success`,
       data: {
