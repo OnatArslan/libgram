@@ -1,5 +1,4 @@
 const Review = require("../models/reviewModel");
-const User = require("../models/userModel");
 const Book = require("../models/bookModel");
 
 // If route is /api/v1/review this will return all reviews but route is /api/v1/books/:bookId/reviews this route returns all reviews made on this book
