@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-
+const Book = require(`../models/bookModel`);
 // All this routes for admin's regular user can not use this routes
 
 exports.getAllUsers = async (req, res, next) => {
@@ -28,10 +28,30 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const user = User.findByPk();
+    const user = await User.findByPk(req.params.userId, {
+      attributes: [`id`, `username`, `email`, `role`],
+      include: [
+        {
+          model: Book,
+          as: `book`,
+          attributes: [`name`, `isbn`],
+        },
+        {
+          model: User,
+          as: `follower`,
+          attributes: [`username`, `email`],
+        },
+        {
+          model: User,
+          as: `following`,
+          attributes: [`username`, `email`],
+        },
+      ],
+    });
+    console.log(user);
     res.status(201).json({
       status: "success",
-      data: {},
+      data: { user },
     });
   } catch (err) {
     res.status(500).json({
