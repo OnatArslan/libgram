@@ -48,10 +48,9 @@ exports.getUser = async (req, res, next) => {
         },
       ],
     });
-    console.log(user);
     res.status(201).json({
       status: "success",
-      data: { user },
+      data: { user: user },
     });
   } catch (err) {
     res.status(500).json({
