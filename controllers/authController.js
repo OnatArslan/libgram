@@ -167,7 +167,6 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
-//
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
