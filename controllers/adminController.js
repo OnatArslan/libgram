@@ -87,21 +87,9 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
+// For change user's role if neccessary
 exports.updateUser = async (req, res, next) => {
   try {
-    if (req.body.password || req.body.passwordConfirmation) {
-      return next(
-        new Error(
-          `You can not use this route for updating password.Please try /resetPassword`
-        )
-      );
-    }
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return next(new Error(`Can not find user in db`));
-    }
-    const updatedUser = await user.update(req.body, {});
-
     res.status(201).json({
       status: "success",
       data: {
