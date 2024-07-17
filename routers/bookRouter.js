@@ -25,7 +25,11 @@ router
 router
   .route(`/:bookId`)
   .get(bookController.getBook)
-  .patch(bookController.updateBook) // Restrict Admin
+  .patch(
+    authController.isAuthenticated,
+    authController.isAdmin,
+    bookController.updateBook
+  ) // Restrict Admin
   .delete(
     authController.isAuthenticated,
     authController.isAdmin,
