@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Review = require(`../models/reviewModel`);
 const userBook = require("../models/userBookModel");
 const { Json } = require("sequelize/lib/utils");
+const { messages } = require("validatorjs/src/lang");
 
 // This controller route /users/:userId/books and /books routes
 exports.getAllBooks = async (req, res, next) => {
@@ -59,8 +60,11 @@ exports.getBook = async (req, res, next) => {
       ],
     });
 
+    const ownerCount = await book.countOwner();
+
     res.status(200).json({
       status: `success`,
+      message: `This book owned by ${ownerCount} users`,
       data: {
         book: book,
       },
