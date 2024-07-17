@@ -32,13 +32,7 @@ app.use(`/api/v1/books`, bookRouter);
 app.use(`/api/v1/users`, authRouter);
 app.use(`/api/v1/reviews`, reviewRouter);
 app.use(`/api/v1/admin`, adminRouter);
-
-app.use("*", (req, res, next) => {
-  res.status(200).json({
-    status: `fail`,
-    message: `Can't find this route`,
-  });
-});
+app.use(`/api/v1/profile`, profileRouter);
 
 // Error handling middleware
 function errorHandler(err, req, res, next) {
@@ -63,5 +57,12 @@ function errorHandler(err, req, res, next) {
   // Pass the error to the next middleware, if needed
   next(err);
 }
+
+app.use("*", (req, res, next) => {
+  res.status(200).json({
+    status: `fail`,
+    message: `Can't find this route`,
+  });
+});
 
 module.exports = app;

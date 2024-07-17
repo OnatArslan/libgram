@@ -1,14 +1,12 @@
 const express = require(`express`);
-const userController = require(`../controllers/adminController`);
+
 const authController = require(`../controllers/authController`);
 const profileController = require(`../controllers/profileController`);
-
-const bookRouter = require(`./bookRouter`);
 
 const router = express.Router({ mergeParams: true });
 
 router
-  .route(`/getMe`)
+  .route(`/`)
   .get(authController.isAuthenticated, profileController.getProfile);
 
 // Friendship routes
