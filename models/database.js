@@ -43,8 +43,16 @@ Book.belongsToMany(User, {
   otherKey: `userId`,
 });
 
-User.hasMany(userBook, { foreignKey: `userId` });
-Book.hasMany(userBook, { foreignKey: `bookId` });
+User.hasMany(userBook, {
+  foreignKey: `userId`,
+  onDelete: `CASCADE`,
+  onUpdate: `CASCADE`,
+});
+Book.hasMany(userBook, {
+  foreignKey: `bookId`,
+  onDelete: `CASCADE`,
+  onUpdate: `CASCADE`,
+});
 
 userBook.belongsTo(User, { foreignKey: `userId` });
 userBook.belongsTo(Book, { foreignKey: `bookId` });
@@ -67,8 +75,16 @@ User.belongsToMany(User, {
   otherKey: `followingId`,
 });
 
-User.hasMany(userFollower, { foreignKey: `followingId` });
-User.hasMany(userFollower, { foreignKey: `followerId` });
+User.hasMany(userFollower, {
+  foreignKey: `followingId`,
+  onDelete: `CASCADE`,
+  onUpdate: `CASCADE`,
+});
+User.hasMany(userFollower, {
+  foreignKey: `followerId`,
+  onDelete: `CASCADE`,
+  onUpdate: `CASCADE`,
+});
 
 userFollower.belongsTo(User, { foreignKey: `followingId` });
 userFollower.belongsTo(User, { foreignKey: `followerId` });
@@ -78,7 +94,7 @@ userFollower.belongsTo(User, { foreignKey: `followerId` });
 User.hasMany(Review, {
   foreignKey: `userId`,
   onDelete: `CASCADE`,
-  onUpdate: `NO ACTION`,
+  onUpdate: `CASCADE`,
   as: `reviews`,
 });
 
@@ -88,7 +104,7 @@ Review.belongsTo(User, { foreignKey: `userId`, as: `owner` });
 Book.hasMany(Review, {
   foreignKey: `bookId`,
   onDelete: `CASCADE`,
-  onUpdate: `NO ACTION`,
+  onUpdate: `CASCADE`,
   as: `reviews`,
 });
 
