@@ -71,6 +71,20 @@ exports.addBookToLibrary = async (req, res, next) => {
   }
 };
 
+exports.removeBookFromLibrary = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {},
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
 exports.follow = async (req, res, next) => {
   try {
     const followingId = req.params.followingId;
