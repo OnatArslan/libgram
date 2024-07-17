@@ -81,16 +81,33 @@ User.init(
 
 // HERE I DECLARE HOOKS FOR USER MODEL
 User.beforeCreate(async (user) => {
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(user.password, saltRounds);
-  user.password = hashedPassword;
-});
-
-User.beforeUpdate(async (user) => {
-  if (user.changed(`password`)) {
+  try {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(user.password, saltRounds);
     user.password = hashedPassword;
+  } catch (error) {
+    throw new Error("Error hashing password on user creation.");
+  }
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.changed("password")) {
+    try {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+      user.password = hashedPassword;
+    } catch (error) {
+      throw new Error("Error hashing password on user update.");
+    }
+  }
+});
+
+User.beforeDestroy(async (user) => {
+  try {
+    user.isActive = false;
+    await user.save();
+  } catch (error) {
+    throw new Error("Error setting user as inactive on destroy.");
   }
 });
 
