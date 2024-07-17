@@ -11,8 +11,8 @@ router
 
 // Friendship routes
 router
-  .route(`/addFriend/:followingId`)
-  .get(authController.isAuthenticated, profileController.addFriend);
+  .route(`/follow/:followingId`)
+  .get(authController.isAuthenticated, profileController.follow);
 
 // Book Routes
 router

@@ -24,6 +24,22 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
+exports.getFollowers = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {
+        following: following,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
@@ -43,7 +59,7 @@ exports.addBookToLibrary = async (req, res, next) => {
   }
 };
 
-exports.addFriend = async (req, res, next) => {
+exports.follow = async (req, res, next) => {
   try {
     const followingId = req.params.followingId;
     const following = await User.findByPk(followingId);
@@ -63,6 +79,22 @@ exports.addFriend = async (req, res, next) => {
       );
     }
     req.user.addFollowing(following);
+    res.status(200).json({
+      status: `success`,
+      data: {
+        following: following,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.unfollow = async (req, res, next) => {
+  try {
     res.status(200).json({
       status: `success`,
       data: {
