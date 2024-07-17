@@ -10,7 +10,6 @@ router.use(`/:userId/books`, bookRouter);
 
 // User routes
 router.route(`/signUp`).post(authController.signUp);
-
 router.route(`/signIn`).post(authController.signIn);
 
 // Friendship routes
@@ -25,6 +24,8 @@ router
 router
   .route(`/addBook/:bookId`)
   .post(authController.isAuthenticated, authController.addBookToLibrary);
+
+// router.route(`/removeBook/:bookId`).get(authController.isAuthenticated,);
 
 // Admin routes
 router

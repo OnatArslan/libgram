@@ -166,7 +166,7 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
-// These route for fetch api
+//
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
