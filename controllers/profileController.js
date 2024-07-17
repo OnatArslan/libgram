@@ -1,4 +1,6 @@
 const User = require(`../models/userModel`);
+const Book = require(`../models/bookModel`);
+const attributes = require("validatorjs/src/attributes");
 
 // These are daily stuff
 // This getProfile controler must go to profileController and profileRoutes must be used for this kind of stuff
@@ -6,8 +8,33 @@ const User = require(`../models/userModel`);
 exports.getProfile = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      fields: [`username`, `email`, `role`],
-      include: [`follower`, `following`, `book`],
+      attributes: [`username`, `email`, `role`],
+      include: [
+        {
+          as: `follower`,
+          model: User,
+          attributes: [`username`, `email`],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          as: `following`,
+          model: User,
+          attributes: [`username`, `email`],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          as: `book`,
+          model: Book,
+          attributes: [`name`, `isbn`],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
 
     res.status(200).json({
