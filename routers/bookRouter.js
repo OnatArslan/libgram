@@ -10,7 +10,6 @@ const router = express.Router({ mergeParams: true });
 // These routes for regular CRUD routes not specific
 
 // For using `/bookId/reviews` create review on book
-router.use(`/:bookId/reviews`, reviewRouter);
 
 router
   .route(`/`)

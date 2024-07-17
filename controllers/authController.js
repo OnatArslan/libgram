@@ -149,7 +149,7 @@ exports.getProfile = async (req, res, next) => {
   try {
     const user = await userModel.findByPk(req.user.id, {
       fields: [`username`, `email`, `role`],
-      include: [`follower`, `following`],
+      include: [`follower`, `following`, `book`],
     });
 
     res.status(200).json({
