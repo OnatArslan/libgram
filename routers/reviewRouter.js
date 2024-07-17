@@ -11,6 +11,9 @@ router
   .get(reviewController.getAllReviews)
   .post(authController.isAuthenticated, reviewController.createReview);
 
-router.route(`/:reviewId`).get();
+router
+  .route(`/:reviewId`)
+  .patch(authController.isAuthenticated, reviewController.updateReview)
+  .delete(authController.isAuthenticated, reviewController.deleteReview);
 
 module.exports = router;
