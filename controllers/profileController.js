@@ -184,6 +184,22 @@ exports.unfollow = async (req, res, next) => {
   }
 };
 
+exports.removeFollower = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: `success`,
+      data: {
+        book: book,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
 exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
