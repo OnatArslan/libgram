@@ -10,14 +10,40 @@ exports.getProfile = async (req, res, next) => {
     console.log(req.user.id);
 
     const user = await User.findByPk(req.user.id, {
-      attributes: [`username`, `email`, `role`],
-      include: [`book`, `follower`, `following`],
+      attributes: [`id`, `username`, `email`, `role`, `createdAt`, `updatedAt`],
+      include: [
+        {
+          model: User,
+          as: `follower`,
+          attributes: [],
+          through: { attributes: [] },
+        },
+        {
+          model: User,
+          as: `following`,
+          attributes: [],
+          through: { attributes: [] },
+        },
+        {
+          model: Book,
+          as: `book`,
+          attributes: [],
+          through: { attributes: [] },
+        },
+      ],
     });
+
+    const countFollower = await user.countFollower();
+    const countFollowing = await user.countFollowing();
+    const countBook = await user.countBook();
 
     res.status(200).json({
       status: `success`,
       data: {
         user: user,
+        numberOfFollower: countFollower,
+        numberOfFollowing: countFollowing,
+        numberOfBook: countBook,
       },
     });
   } catch (err) {
