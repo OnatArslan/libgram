@@ -63,9 +63,10 @@ exports.getBook = async (req, res, next) => {
 
     res.status(200).json({
       status: `success`,
-      message: `This book owned by ${ownerCount} users`,
+
       data: {
         book: book,
+        numOfOwners: ownerCount,
       },
     });
   } catch (err) {
