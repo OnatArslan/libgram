@@ -229,9 +229,18 @@ exports.removeFollower = async (req, res, next) => {
 // Books controllers
 exports.getBooks = async (req, res, next) => {
   try {
+    const bookCount = await req.user.countBook();
+    const books = await req.user.getBook({
+      attributes: [`id`, `name`, `isbn`],
+      joinTableAttributes: [],
+    });
+
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: {
+        numberOfBooks: bookCount,
+        books: books,
+      },
     });
   } catch (err) {
     res.status(500).json({
