@@ -1,7 +1,5 @@
 const User = require(`../models/userModel`);
 const Book = require(`../models/bookModel`);
-const attributes = require("validatorjs/src/attributes");
-const sequelize = require("../models/database");
 
 // Get profile is not done you must recap tomorrow and add sample datas to server
 exports.getProfile = async (req, res, next) => {
@@ -59,14 +57,18 @@ exports.getFollowers = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
 
+    const followerCount = await user.countFollower();
     const followers = await user.getFollower({
-      attributes: [`username`],
+      attributes: [`username`, `email`, `role`],
       joinTableAttributes: [], // This is for
     });
 
     res.status(200).json({
       status: `success`,
-      data: { followers },
+      data: {
+        followerCount: followerCount,
+        followers: followers,
+      },
     });
   } catch (err) {
     res.status(500).json({
