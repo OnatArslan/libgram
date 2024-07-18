@@ -74,9 +74,13 @@ exports.follow = async (req, res, next) => {
       include: [`following`],
     });
 
+    if (!curUser) {
+      return next(new Error(`Can not find this user`));
+    }
     const isFriendsAlready = curUser.following.some(
       (el) => el.username === following.username
     );
+
     if (isFriendsAlready) {
       return next(
         new Error(
