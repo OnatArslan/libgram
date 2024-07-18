@@ -1,7 +1,7 @@
 const User = require(`../models/userModel`);
 const Book = require(`../models/bookModel`);
 
-// Get profile is not done you must recap tomorrow and add sample datas to server
+// i handle it right now
 exports.getProfile = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -52,7 +52,7 @@ exports.getProfile = async (req, res, next) => {
   }
 };
 
-// Get followers not done
+// Get followers is done
 exports.getFollowers = async (req, res, next) => {
   try {
     const userId = req.user.id;
