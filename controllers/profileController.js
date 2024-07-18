@@ -254,11 +254,14 @@ exports.addBookToLibrary = async (req, res, next) => {
   try {
     const bookId = req.params.bookId;
     const book = await Book.findByPk(bookId);
+    if (!book) {
+      return next(new Error(`Can not find book with given id!`));
+    }
     req.user.addBook(book);
     res.status(200).json({
       status: `success`,
       data: {
-        book: book,
+        message: `${book.name} succesfully added to library`,
       },
     });
   } catch (err) {
@@ -271,9 +274,17 @@ exports.addBookToLibrary = async (req, res, next) => {
 
 exports.removeBookFromLibrary = async (req, res, next) => {
   try {
+    const bookId = req.params.bookId;
+    const book = await Book.findByPk(bookId);
+    if (!book) {
+      return next(new Error(`Can not find a book with given id`));
+    }
+    req.user.removeBook(book);
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: {
+        message: `${book.name} removed succesfully...`,
+      },
     });
   } catch (err) {
     res.status(500).json({

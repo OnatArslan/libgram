@@ -10,13 +10,13 @@ router.use(authController.isAuthenticated);
 router.route(`/`).get(profileController.getProfile);
 
 // Friendship routes
-router.route(`/follow/:followingId`).get(profileController.follow);
+router.route(`/follow/:followingId`).post(profileController.follow);
 
-router.route(`/unfollow/:followingId`).get(profileController.unfollow);
+router.route(`/unfollow/:followingId`).delete(profileController.unfollow);
 
 router
   .route(`/remove-follower/:followerId`)
-  .get(profileController.removeFollower);
+  .delete(profileController.removeFollower);
 
 router.route(`/followers`).get(profileController.getFollowers);
 
