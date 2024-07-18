@@ -150,6 +150,7 @@ exports.isAdmin = async (req, res, next) => {
 
 exports.sendPasswordToken = async (req, res, next) => {
   try {
+    // Get email and User based on email if not return error
     const email = req.body.email;
     const user = await User.findOne({ where: { email: email } });
     if (!user) {
@@ -157,7 +158,12 @@ exports.sendPasswordToken = async (req, res, next) => {
         new Error(`Can not find user with this email.Please give correct email`)
       );
     }
-
+    // Create passwordResetToken and save hashed version to database
+    const passwordToken = crypto.randomBytes(32).toString(`hex`);
+    const hashedPasswordToken = crypto
+      .createHash(`sha256`)
+      .update(passwordToken)
+      .digest(`hex`);
     // const info = await transporter.sendMail({
     //   from: `libgram@support.com`,
     //   to: email,
