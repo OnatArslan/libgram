@@ -12,6 +12,8 @@ router.route(`/`).get(profileController.getProfile);
 // Friendship routes
 router.route(`/follow/:followingId`).get(profileController.follow);
 
+router.route(`/unfollow/:followingId`).get(profileController.follow);
+
 router.route(`/followers`).get(profileController.getFollowers);
 
 router.route(`/followings`).get(profileController.getFollowings);

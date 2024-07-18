@@ -55,18 +55,19 @@ exports.getProfile = async (req, res, next) => {
 // Get followers not done
 exports.getFollowers = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.user.id);
+    const userId = req.user.id;
+    const user = await User.findByPk(userId);
 
     const followerCount = await user.countFollower();
     const followers = await user.getFollower({
-      attributes: [`username`, `email`, `role`],
+      attributes: [`id`, `username`, `email`, `role`],
       joinTableAttributes: [], // This is for
     });
 
     res.status(200).json({
       status: `success`,
       data: {
-        followerCount: followerCount,
+        numberOfFollower: followerCount,
         followers: followers,
       },
     });
@@ -80,9 +81,20 @@ exports.getFollowers = async (req, res, next) => {
 
 exports.getFollowings = async (req, res, next) => {
   try {
+    const userId = req.user.id;
+    const user = await User.findByPk(userId);
+
+    const followingCount = await user.countFollowing();
+    const followings = await user.getFollowing({
+      attributes: [`id`, `username`, `email`, `role`],
+      joinTableAttributes: [],
+    });
     res.status(200).json({
       status: `success`,
-      data: {},
+      data: {
+        numberOfFollowings: followingCount,
+        followings: followings,
+      },
     });
   } catch (err) {
     res.status(500).json({
@@ -132,6 +144,30 @@ exports.follow = async (req, res, next) => {
 
 exports.unfollow = async (req, res, next) => {
   try {
+    const followingId = req.params.followingId;
+    const currentUser = await User.findByPk(req.user.id, {
+      include: [
+        {
+          model: User,
+          as: `following`,
+        },
+      ],
+    });
+    const followingUser = await User.findByPk(followingId);
+    if (!followingUser) {
+      return next(new Error(`Can not find this user`));
+    }
+
+    const isFriends = currentUser.following.some((el) => {
+      return el.id === followingUser.id;
+    });
+
+    if (!isFriends) {
+      return next(
+        new Error(`Can not unfollow because you are not following this user`)
+      );
+    }
+
     res.status(200).json({
       status: `success`,
       data: {
