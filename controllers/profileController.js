@@ -198,6 +198,7 @@ exports.removeFollower = async (req, res, next) => {
       include: [{ as: `follower`, model: User }],
     });
     const follower = await User.findByPk(followerId);
+
     if (!follower) {
       return next(new Error(`Can not find this user`));
     }
