@@ -1,7 +1,10 @@
+// Import required packages
 const jwt = require(`jsonwebtoken`);
 const bcrypt = require(`bcrypt`);
+// Import models
 const userModel = require(`../models/userModel`);
-const bookModel = require(`../models/bookModel`);
+// Import nodemailer transporter
+const transporter = require(`../utils/mail`);
 
 // Controller for register
 exports.signUp = async (req, res, next) => {
@@ -135,6 +138,16 @@ exports.isAdmin = async (req, res, next) => {
     } else {
       next();
     }
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  try {
   } catch (err) {
     res.status(500).json({
       status: `fail`,
