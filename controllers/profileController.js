@@ -168,10 +168,12 @@ exports.unfollow = async (req, res, next) => {
       );
     }
 
+    currentUser.removeFollowing(followingUser);
+
     res.status(200).json({
       status: `success`,
       data: {
-        following: following,
+        currentUser: currentUser,
       },
     });
   } catch (err) {
