@@ -1,8 +1,10 @@
 // Import required packages
 const jwt = require(`jsonwebtoken`);
 const bcrypt = require(`bcrypt`);
+const crypto = require("crypto");
+
 // Import models
-const userModel = require(`../models/userModel`);
+const User = require(`../models/userModel`);
 // Import nodemailer transporter
 const transporter = require(`../utils/mail`);
 
@@ -17,7 +19,7 @@ exports.signUp = async (req, res, next) => {
     if (!email || !password || !passwordConfirmation || !username) {
       return next(new Error(`Please enter all the credentials`));
     }
-    const newUser = await userModel.create({
+    const newUser = await User.create({
       email: email,
       username: username,
       password: password,
@@ -53,7 +55,7 @@ exports.signIn = async (req, res, next) => {
     if (!email || !password) {
       return next(new Error(`Missing credentials`));
     }
-    const user = await userModel.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return next(new Error(`username or password is not correct`));
     }
@@ -102,7 +104,7 @@ exports.isAuthenticated = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Check if user still exists
-    const currentUser = await userModel.findByPk(decoded.id);
+    const currentUser = await User.findByPk(decoded.id);
     if (!currentUser) {
       return res.status(401).json({
         status: "fail",
@@ -146,8 +148,26 @@ exports.isAdmin = async (req, res, next) => {
   }
 };
 
-exports.forgotPassword = async (req, res, next) => {
+exports.sendPasswordToken = async (req, res, next) => {
   try {
+    const email = req.body.email;
+    const user = await User.findOne({ where: { email: email } });
+    if (!user) {
+      return next(
+        new Error(`Can not find user with this email.Please give correct email`)
+      );
+    }
+
+    // const info = await transporter.sendMail({
+    //   from: `libgram@support.com`,
+    //   to: email,
+    //   subject: `Password Reset`,
+    //   text: `Here is your password reset token {} please ignore if you don't want reset your password`,
+    // });
+    res.status(200).json({
+      status: `success`,
+      message: `Password reset token sended to your mail`,
+    });
   } catch (err) {
     res.status(500).json({
       status: `fail`,

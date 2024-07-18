@@ -12,4 +12,7 @@ router.use(`/:userId/books`, bookRouter);
 router.route(`/signUp`).post(authController.signUp);
 router.route(`/signIn`).post(authController.signIn);
 
+// Password reset
+router.route(`/forgot-password`).post(authController.sendPasswordToken);
+
 module.exports = router;
