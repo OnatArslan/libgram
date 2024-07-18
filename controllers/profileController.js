@@ -127,11 +127,16 @@ exports.follow = async (req, res, next) => {
         )
       );
     }
+
+    if (curUser.id === following.id) {
+      return next(new Error(`Can not follow yourself`));
+    }
+
     await req.user.addFollowing(following);
     res.status(200).json({
       status: `success`,
       data: {
-        following: following,
+        message: `Successfuly followed ${following.username}`,
       },
     });
   } catch (err) {
@@ -173,7 +178,7 @@ exports.unfollow = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
-        currentUser: currentUser,
+        currentUser: `Succesfuly unfollowed ${followingUser.username}`,
       },
     });
   } catch (err) {
@@ -209,7 +214,7 @@ exports.removeFollower = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
-        user,
+        message: `Follower: ${follower.username} succesfuly removed`,
       },
     });
   } catch (err) {
