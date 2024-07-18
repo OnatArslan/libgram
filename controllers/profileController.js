@@ -6,10 +6,9 @@ const sequelize = require("../models/database");
 // Get profile is not done you must recap tomorrow and add sample datas to server
 exports.getProfile = async (req, res, next) => {
   try {
-    console.log(`-------------------------------------------------`);
-    console.log(req.user.id);
+    const userId = req.user.id;
 
-    const user = await User.findByPk(req.user.id, {
+    const user = await User.findByPk(userId, {
       attributes: [`id`, `username`, `email`, `role`, `createdAt`, `updatedAt`],
       include: [
         {
