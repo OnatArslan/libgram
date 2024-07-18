@@ -117,7 +117,7 @@ exports.follow = async (req, res, next) => {
       return next(new Error(`Can not find this user`));
     }
     const isFriendsAlready = curUser.following.some(
-      (el) => el.username === following.username
+      (el) => el.id == following.id
     );
 
     if (isFriendsAlready) {
@@ -127,7 +127,7 @@ exports.follow = async (req, res, next) => {
         )
       );
     }
-    req.user.addFollowing(following);
+    await req.user.addFollowing(following);
     res.status(200).json({
       status: `success`,
       data: {
@@ -168,7 +168,7 @@ exports.unfollow = async (req, res, next) => {
       );
     }
 
-    currentUser.removeFollowing(followingUser);
+    await currentUser.removeFollowing(followingUser);
 
     res.status(200).json({
       status: `success`,
@@ -186,10 +186,30 @@ exports.unfollow = async (req, res, next) => {
 
 exports.removeFollower = async (req, res, next) => {
   try {
+    const followerId = req.params.followerId;
+    const userId = req.user.id;
+
+    const user = await User.findByPk(userId, {
+      include: [{ as: `follower`, model: User }],
+    });
+    const follower = await User.findByPk(followerId);
+    if (!follower) {
+      return next(new Error(`Can not find this user`));
+    }
+
+    const isFollower = user.follower.some((el) => el.id === follower.id);
+
+    if (!isFollower) {
+      return next(
+        new Error(`Can not remove follower because user is not your friend`)
+      );
+    }
+    await user.removeFollower(follower);
+
     res.status(200).json({
       status: `success`,
       data: {
-        book: book,
+        user,
       },
     });
   } catch (err) {

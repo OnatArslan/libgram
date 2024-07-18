@@ -14,7 +14,9 @@ router.route(`/follow/:followingId`).get(profileController.follow);
 
 router.route(`/unfollow/:followingId`).get(profileController.unfollow);
 
-router.route(`/remove-follower/:followerId`).get(profileController);
+router
+  .route(`/remove-follower/:followerId`)
+  .get(profileController.removeFollower);
 
 router.route(`/followers`).get(profileController.getFollowers);
 
