@@ -22,6 +22,7 @@
     "validatorjs": "^3.22.1"
   },
   "devDependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
   }
 }
