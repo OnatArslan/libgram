@@ -158,8 +158,9 @@ exports.sendPasswordToken = async (req, res, next) => {
         new Error(`Can not find user with this email.Please give correct email`)
       );
     }
-    // Create passwordResetToken and save hashed version to database
+    // Create passwordResetToken 32 bytes random string
     const passwordToken = crypto.randomBytes(32).toString(`hex`);
+    // Hash the token for database saving
     const hashedPasswordToken = crypto
       .createHash(`sha256`)
       .update(passwordToken)
