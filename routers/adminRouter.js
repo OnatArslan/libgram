@@ -6,6 +6,7 @@ const adminController = require(`../controllers/adminController`);
 const router = express.Router();
 
 router.use(authController.isAuthenticated, authController.isAdmin);
+
 router
   .route(`/`)
   .get(adminController.getAllUsers)
