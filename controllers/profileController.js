@@ -61,7 +61,7 @@ exports.getFollowers = async (req, res, next) => {
     const followerCount = await user.countFollower();
     const followers = await user.getFollower({
       attributes: [`id`, `username`, `email`, `role`],
-      joinTableAttributes: [], // This is for
+      joinTableAttributes: [], // This is for  not include join table
     });
 
     res.status(200).json({
