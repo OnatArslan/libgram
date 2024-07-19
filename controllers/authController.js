@@ -173,7 +173,7 @@ exports.sendPasswordToken = async (req, res, next) => {
       from: `libgram@support.com`,
       to: email,
       subject: `Password Reset`,
-      text: `Here is your password reset token ${passwordToken} please ignore if you don't want reset your password`,
+      text: `Here is your password reset token ${passwordToken}.It will expires in 10 min.Please ignore if you don't want reset your password`,
     });
 
     res.status(200).json({
@@ -183,6 +183,16 @@ exports.sendPasswordToken = async (req, res, next) => {
         user,
       },
     });
+  } catch (err) {
+    res.status(500).json({
+      status: `fail`,
+      message: err.message,
+    });
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
   } catch (err) {
     res.status(500).json({
       status: `fail`,
