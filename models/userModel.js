@@ -6,11 +6,10 @@ const crypto = require("crypto");
 
 class User extends Model {
   checkPasswordChangedAfterToken(token) {
-    if (this.updatedAt < token.iat) {
-      return true;
-    } else {
-      return false;
-    }
+    // Convert both dates to timestamps for a reliable comparison
+    const lastUpdateTimestamp = new Date(this.updatedAt).getTime();
+    const tokenIssuedAtTimestamp = token.iat * 1000; // Assuming token.iat is in seconds
+    return lastUpdateTimestamp < tokenIssuedAtTimestamp;
   }
   hashPasswordResetToken(token) {
     const hashedPasswordToken = crypto
