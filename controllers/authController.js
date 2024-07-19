@@ -161,10 +161,8 @@ exports.sendPasswordToken = async (req, res, next) => {
     // Create passwordResetToken 32 bytes random string
     const passwordToken = crypto.randomBytes(32).toString(`hex`);
     // Hash the token for database saving
-    const hashedPasswordToken = crypto
-      .createHash(`sha256`)
-      .update(passwordToken)
-      .digest(`hex`);
+    // Can add this function to model
+    const hashedToken = user.hashPasswordResetToken(passwordToken);
     // const info = await transporter.sendMail({
     //   from: `libgram@support.com`,
     //   to: email,

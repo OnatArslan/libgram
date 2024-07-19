@@ -1,7 +1,8 @@
-const { Sequelize, DataTypes, Model } = require(`sequelize`);
+const { Sequelize, DataTypes, Model, STRING } = require(`sequelize`);
 const sequelize = require("./database");
 
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 
 class User extends Model {
   checkPasswordChangedAfterToken(token) {
@@ -10,6 +11,13 @@ class User extends Model {
     } else {
       return false;
     }
+  }
+  hashPasswordResetToken(token) {
+    const hashedPasswordToken = crypto
+      .createHash(`sha256`)
+      .update(token)
+      .digest(`hex`);
+    return hashedPasswordToken;
   }
 }
 
@@ -60,6 +68,12 @@ User.init(
       validate: {
         notEmpty: true,
       },
+    },
+    passwordResetToken: {
+      type: DataTypes.STRING,
+    },
+    passwordResetExpires: {
+      type: DataTypes.DATE,
     },
     role: {
       type: DataTypes.ENUM([`user`, `admin`]),
