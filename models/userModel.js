@@ -18,6 +18,11 @@ class User extends Model {
       .digest(`hex`);
     return hashedPasswordToken;
   }
+  checkPasswordAndConfirmation(password, passwordConfirm) {
+    password = password.toString();
+    passwordConfirm = passwordConfirm.toString();
+    return password === passwordConfirm;
+  }
 }
 
 User.init(
@@ -52,11 +57,6 @@ User.init(
         isLongEnough(value) {
           if (value.length < 8) {
             throw new Error(`Password should be at least 8 character `);
-          }
-        },
-        matchesConfirmation(value) {
-          if (value !== this.passwordConfirmation) {
-            throw new Error(`Passowrd confirmation does not match password`);
           }
         },
       },
@@ -110,6 +110,7 @@ User.beforeUpdate(async (user) => {
       const hashedPassword = await bcrypt.hash(user.password, saltRounds);
       user.password = hashedPassword;
     } catch (error) {
+      console.log(error);
       throw new Error("Error hashing password on user update.");
     }
   }
