@@ -197,29 +197,33 @@ exports.resetPassword = async (req, res, next) => {
     const { token } = req.body;
     const newPassword = req.body.newPassword.toString();
     const passwordConfirmation = req.body.passwordConfirmation.toString();
+
     if (!token || !newPassword || !passwordConfirmation) {
       return next(new Error(`Missing credentials`));
     }
+
     const hashedToken = crypto.createHash(`sha256`).update(token).digest(`hex`);
+
     const user = await User.findOne({
       where: {
         passwordResetToken: hashedToken,
         passwordResetExpires: { [Op.gt]: Date.now() }, // Sequelize greater than operator
       },
     });
+
     if (!user) {
       return next(new Error(`Token is invalid or has expired.`));
     }
-    console.log(newPassword);
-    console.log(passwordConfirmation);
 
     const isPasswordAndConfirmSame = user.checkPasswordAndConfirmation(
       newPassword,
       passwordConfirmation
     );
+
     if (!isPasswordAndConfirmSame) {
       return next(new Error(`Please confirm your password`));
     }
+
     await user.update({
       passwordConfirmation: passwordConfirmation,
       password: newPassword,
