@@ -20,7 +20,9 @@ exports.signUp = async (req, res, next) => {
     if (!email || !password || !passwordConfirmation || !username) {
       return next(new Error(`Please enter all the credentials`));
     }
-
+    if (!(password === passwordConfirmation)) {
+      return next(new Error(`Password and confirmation does not match`));
+    }
     const newUser = await User.create({
       email: email,
       username: username,
