@@ -160,9 +160,13 @@ exports.sendPasswordToken = async (req, res, next) => {
     }
     // Create passwordResetToken 32 bytes random string
     const passwordToken = crypto.randomBytes(32).toString(`hex`);
+    const passwordResetExpires = Date.now() + 10 * 60 * 1000;
     // Hash the token for database saving
     // Can add this function to model
     const hashedToken = user.hashPasswordResetToken(passwordToken);
+    user.passwordResetToken = hashedToken;
+    user.passwordResetExpires = passwordResetExpires;
+    user.save();
     // const info = await transporter.sendMail({
     //   from: `libgram@support.com`,
     //   to: email,
@@ -172,6 +176,9 @@ exports.sendPasswordToken = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       message: `Password reset token sended to your mail`,
+      data: {
+        user,
+      },
     });
   } catch (err) {
     res.status(500).json({
