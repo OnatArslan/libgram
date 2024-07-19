@@ -20,6 +20,7 @@ exports.signUp = async (req, res, next) => {
     if (!email || !password || !passwordConfirmation || !username) {
       return next(new Error(`Please enter all the credentials`));
     }
+
     const newUser = await User.create({
       email: email,
       username: username,
@@ -180,9 +181,6 @@ exports.sendPasswordToken = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       message: `Password reset token sended to your mail`,
-      data: {
-        user,
-      },
     });
   } catch (err) {
     res.status(500).json({
@@ -201,6 +199,11 @@ exports.resetPassword = async (req, res, next) => {
     if (!token || !newPassword || !passwordConfirmation) {
       return next(new Error(`Missing credentials`));
     }
+    if (!(newPassword === passwordConfirmation)) {
+      return next(
+        new Error(`Password and password confirmation does not match!`)
+      );
+    }
 
     const hashedToken = crypto.createHash(`sha256`).update(token).digest(`hex`);
 
@@ -215,15 +218,6 @@ exports.resetPassword = async (req, res, next) => {
       return next(new Error(`Token is invalid or has expired.`));
     }
 
-    const isPasswordAndConfirmSame = user.checkPasswordAndConfirmation(
-      newPassword,
-      passwordConfirmation
-    );
-
-    if (!isPasswordAndConfirmSame) {
-      return next(new Error(`Please confirm your password`));
-    }
-
     await user.update({
       passwordConfirmation: passwordConfirmation,
       password: newPassword,
@@ -233,9 +227,6 @@ exports.resetPassword = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       message: `Password successfuly changed`,
-      data: {
-        user: user,
-      },
     });
   } catch (err) {
     console.log(err);

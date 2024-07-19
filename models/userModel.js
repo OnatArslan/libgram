@@ -18,11 +18,6 @@ class User extends Model {
       .digest(`hex`);
     return hashedPasswordToken;
   }
-  checkPasswordAndConfirmation(password, passwordConfirm) {
-    password = password.toString();
-    passwordConfirm = passwordConfirm.toString();
-    return password === passwordConfirm;
-  }
 }
 
 User.init(
