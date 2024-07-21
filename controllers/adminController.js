@@ -63,7 +63,7 @@ exports.getUser = async (req, res, next) => {
 exports.createUser = async (req, res, next) => {
   try {
     if (!(password === passwordConfirmation)) {
-      return next(new Error(`Password and confirmation does not match!!`));
+      return next(new Error(`Password and confirmation does not match!!!`));
     }
     const userData = {
       username: req.body.username,
