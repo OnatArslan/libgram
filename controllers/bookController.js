@@ -153,12 +153,14 @@ exports.createBookISBN = async (req, res, next) => {
     // GETTING BOOK FIELDS ON bookData
     const bookObj = {
       title: bookData.items[0].volumeInfo.title,
+      description: bookData.items[0].volumeInfo.description,
+      isbn: isbn,
       authors: bookData.items[0].volumeInfo.authors,
       categories: bookData.items[0].volumeInfo.categories,
-      publishedDate: bookData.items[0].volumeInfo.publishedDate,
+      publishedDate: new Date(bookData.items[0].volumeInfo.publishedDate),
     };
-
-    if (!bookData || bookData.totalItems === 0 || bookObj.title) {
+    console.log(bookObj.title);
+    if (!bookData || bookData.totalItems === 0) {
       return next(
         new Error(`This isbn not belong to any book.Please check again`)
       );
@@ -169,7 +171,7 @@ exports.createBookISBN = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
-        newBook: newBook,
+        newBook: bookData,
       },
     });
   } catch (error) {

@@ -34,7 +34,7 @@ Book.init(
     categories: {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
-    publishedData: {
+    publishedDate: {
       type: DataTypes.DATE,
     },
   },
