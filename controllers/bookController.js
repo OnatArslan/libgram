@@ -8,9 +8,9 @@ exports.getAllBooks = async (req, res, next) => {
     let books;
     let owner;
     let ownerUsername;
-
-    if (req.params.userId) {
-      owner = await User.findByPk(req.params.userId, {
+    const userId = req.params.userId;
+    if (userId) {
+      owner = await User.findByPk(userId, {
         include: `book`,
       });
       if (!owner) {
