@@ -231,7 +231,7 @@ exports.getBooks = async (req, res, next) => {
   try {
     const bookCount = await req.user.countBook();
     const books = await req.user.getBook({
-      attributes: [`id`, `name`, `isbn`],
+      attributes: [`id`, `isbn`, `title`, `description`, `authors`],
       joinTableAttributes: [],
     });
 
@@ -261,7 +261,7 @@ exports.addBookToLibrary = async (req, res, next) => {
     res.status(200).json({
       status: `success`,
       data: {
-        message: `${book.name} succesfully added to library`,
+        message: `${book.title} succesfully added to library`,
       },
     });
   } catch (err) {
