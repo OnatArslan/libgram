@@ -40,8 +40,8 @@ router
 router
   .route(`/:isbn`)
   .post(
-    authController.isAdmin,
     authController.isAuthenticated,
+    authController.isAdmin,
     bookController.createBookISBN
   );
 

@@ -145,18 +145,26 @@ exports.deleteBook = async (req, res, next) => {
 exports.createBookISBN = async (req, res, next) => {
   try {
     const isbn = req.params.isbn;
+    console.log(`hello`);
     const bookData = await fetch(
       `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${process.env.GOOGLE_BOOK_API_KEY}`
     );
+    console.log(bookData);
     if (!bookData) {
       return next(
         new Error(`This isbn not belong to any book.Please check again`)
       );
     }
+    res.status(200).json({
+      status: `success`,
+      data: {
+        bookData: bookData,
+      },
+    });
   } catch (error) {
     res.status(500).json({
       status: `fail`,
-      message: error.message,
+      message: error,
     });
   }
 };
