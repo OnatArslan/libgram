@@ -34,6 +34,9 @@ Book.init(
     categories: {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
+    publishedData: {
+      type: DataTypes.DATE,
+    },
   },
   {
     // Options goes here

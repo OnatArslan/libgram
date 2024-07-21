@@ -150,17 +150,26 @@ exports.createBookISBN = async (req, res, next) => {
       `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${process.env.GOOGLE_BOOK_API_KEY}`
     );
     const bookData = await response.json();
+    // GETTING BOOK FIELDS ON bookData
+    const bookObj = {
+      title: bookData.items[0].volumeInfo.title,
+      authors: bookData.items[0].volumeInfo.authors,
+      categories: bookData.items[0].volumeInfo.categories,
+      publishedDate: bookData.items[0].volumeInfo.publishedDate,
+    };
 
-    if (!bookData || bookData.totalItems === 0) {
+    if (!bookData || bookData.totalItems === 0 || bookObj.title) {
       return next(
         new Error(`This isbn not belong to any book.Please check again`)
       );
     }
-    console.log(bookData.items[0].kind);
+
+    const newBook = await Book.create(bookObj);
+
     res.status(200).json({
       status: `success`,
       data: {
-        bookData: bookData,
+        newBook: newBook,
       },
     });
   } catch (error) {
