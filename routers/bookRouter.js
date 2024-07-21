@@ -34,6 +34,15 @@ router
     authController.isAuthenticated,
     authController.isAdmin,
     bookController.deleteBook
-  ); // Restrict Admin
+  );
+
+// Get Book From Google Book API
+router
+  .route(`/:isbn`)
+  .post(
+    authController.isAdmin,
+    authController.isAuthenticated,
+    bookController.createBookISBN
+  );
 
 module.exports = router;

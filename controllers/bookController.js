@@ -140,3 +140,14 @@ exports.deleteBook = async (req, res, next) => {
     });
   }
 };
+
+// Create book via isbn and google API
+exports.createBookISBN = async (req, res, next) => {
+  try {
+  } catch (error) {
+    res.status(500).json({
+      status: `fail`,
+      message: error.message,
+    });
+  }
+};
