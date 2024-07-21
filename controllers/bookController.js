@@ -151,6 +151,13 @@ exports.createBookISBN = async (req, res, next) => {
     );
     const bookData = await response.json();
     // GETTING BOOK FIELDS ON bookData
+
+    console.log(bookObj.title);
+    if (!bookData || bookData.totalItems === 0) {
+      return next(
+        new Error(`This isbn not belong to any book.Please check again`)
+      );
+    }
     const bookObj = {
       title: bookData.items[0].volumeInfo.title,
       description: bookData.items[0].volumeInfo.description,
@@ -159,19 +166,19 @@ exports.createBookISBN = async (req, res, next) => {
       categories: bookData.items[0].volumeInfo.categories,
       publishedDate: new Date(bookData.items[0].volumeInfo.publishedDate),
     };
-    console.log(bookObj.title);
-    if (!bookData || bookData.totalItems === 0) {
+    if (!bookObj.title) {
       return next(
-        new Error(`This isbn not belong to any book.Please check again`)
+        new Error(
+          `Can not save a book without a title please try another isbn for this book`
+        )
       );
     }
-
     const newBook = await Book.create(bookObj);
 
     res.status(200).json({
       status: `success`,
       data: {
-        newBook: bookData,
+        newBook: newBook,
       },
     });
   } catch (error) {
