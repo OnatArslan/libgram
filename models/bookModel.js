@@ -11,13 +11,13 @@ Book.init(
       defaultValue: Sequelize.UUIDV4,
       allowNull: false,
     },
-    name: {
+    title: {
       type: DataTypes.STRING(100),
       unique: true,
       allowNull: false,
-      validate: {
-        min: 3,
-      },
+    },
+    description: {
+      type: DataTypes.TEXT,
     },
     isbn: {
       type: DataTypes.STRING(20),
@@ -26,6 +26,13 @@ Book.init(
       validate: {
         // isISBN: true, This is not neccessary for now COME BACK LATER
       },
+    },
+    authors: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
+    categories: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
     },
   },
   {
