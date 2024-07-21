@@ -152,7 +152,6 @@ exports.createBookISBN = async (req, res, next) => {
     const bookData = await response.json();
     // GETTING BOOK FIELDS ON bookData
 
-    console.log(bookObj.title);
     if (!bookData || bookData.totalItems === 0) {
       return next(
         new Error(`This isbn not belong to any book.Please check again`)
@@ -184,7 +183,7 @@ exports.createBookISBN = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       status: `fail`,
-      message: error,
+      message: error.message,
     });
   }
 };
