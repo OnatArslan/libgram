@@ -146,15 +146,17 @@ exports.createBookISBN = async (req, res, next) => {
   try {
     const isbn = req.params.isbn;
     console.log(`hello`);
-    const bookData = await fetch(
+    const response = await fetch(
       `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${process.env.GOOGLE_BOOK_API_KEY}`
     );
-    console.log(bookData);
-    if (!bookData) {
+    const bookData = await response.json();
+
+    if (!bookData || bookData.totalItems === 0) {
       return next(
         new Error(`This isbn not belong to any book.Please check again`)
       );
     }
+    console.log(bookData.items[0].kind);
     res.status(200).json({
       status: `success`,
       data: {
